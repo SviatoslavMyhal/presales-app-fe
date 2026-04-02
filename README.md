@@ -1,77 +1,176 @@
-# Softonix Vue Guidelines
+# PreSales AI — Frontend
 
-Due to standardization purposes among our teams in Softonix, we would like to have a pretty strict standard project structure based on top of Vue.js.
+Vue 3 single-page application for **AI-assisted presales analysis**: turn a client brief and your team context into structured intelligence, a written report, and workspace artifacts you can save and revisit.
 
-Besides this, we also propose a list of frontend best practices which we must follow for consistency reasons.
+---
 
-### Prerequisition
-- Familiarity with the command line
-- Install Node.js version 20.19.0 or higher (22.12.0+ recommended)
-- Copy `env.example` to `.env` (or use `.env.example` if you add that filename locally) and set `VITE_API_URL` to your presales **backend** base URL (no trailing slash), e.g. `http://localhost:3000`.
+## Overview
 
-### Presales app: backend + frontend
+The app orchestrates a **multi-agent presales pipeline** on the backend. You describe the opportunity in a guided flow; the UI shows progress while **four specialized agents** run in sequence, then renders an interactive report with exports, optional proposal tooling, and persistence when authenticated.
 
-1. Start the backend API (default `http://localhost:3000` or your deployment URL).
-2. In the project root, create `.env` from `.env.example` and set `VITE_API_URL` to that same base URL.
-3. Run `npm install` and `npm run dev`. Open the URL shown in the terminal (usually `http://localhost:5173`).
+**What you can do**
 
-**Auth tokens:** Access (and optional refresh) tokens are stored in `sessionStorage` under keys `presales:access_token` / `presales:refresh_token`. They are cleared on logout and on `401` responses. `sessionStorage` is scoped to the tab and cleared when the tab closes; for stricter isolation use in-memory-only tokens (not implemented here).
+- **Analyze** — Walk through a four-step wizard (project brief, client context, team expertise, constraints), submit, and review the generated report.
+- **Export** — Download the synthesis as **Markdown** or **JSON**, or **print / save as PDF** via the browser.
+- **Save to workspace** — Persist analyses as reports when signed in (title optional).
+- **Reports** — Browse saved reports, open details, delete entries, and start a **new analysis** from the workspace.
+- **Analytics** — Aggregated signals from saved reports (trends, mix, risk signals) when data exists.
+- **Auth** — Sign up / sign in; email confirmation is supported when enabled by the backend. Tokens are stored in `sessionStorage` for the active tab.
 
-**CORS:** If the browser blocks requests, configure the backend to allow your dev origin (e.g. `http://localhost:5173`) in its CORS policy.
+---
 
-**Main UI:** The default route loads `HomeView.vue`: splash → multi-step form (`StepForm`) → loading (`AgentProgress`) → full report (`ReportView`). The top nav (`AppLayout`) wraps this flow and adds **Log in / Sign up**, **My reports**, and the user menu.
+## User flow (short)
 
-**Test flow:** Sign up → complete the analyze steps (no login required for the API call) → on the report screen, **Save** (when logged in) or **Log in to save** → **My reports** → open a report detail.
+| Step | Screen | What happens |
+|------|--------|----------------|
+| 1 | **Home** (`/`) | Landing / splash; entry to the product. |
+| 2 | **New analysis** (`/analyze`) | Multi-step form: *Project description* → *Client messages* (optional) → *Team expertise* (optional) → *Constraints* (optional). |
+| 3 | **Processing** | Animated pipeline while the API runs; mirrors the four backend agents (see below). |
+| 4 | **Report** | Full report view: sections, navigation, save, exports, optional **proposal draft** CTA when applicable. |
+| 5 | **Workspace** (`/reports`, `/reports/analytics`) | **Auth required.** List saved reports, paginate, open `/reports/:id`, view analytics. |
 
-**API client:** All presales-backend calls use `axios` with `Content-Type: application/json` via `src/api/backend-client.ts`. Protected routes send `Authorization: Bearer <access_token>`.
+After login, users are redirected to **`/reports`** by default (unless a `?redirect=` query points elsewhere).
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## The four agents
 
-## Recommended Browser Setup
+These names match the progress UI during analysis. The backend implements the actual orchestration; the frontend reflects their sequence.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+| # | Agent | Role (high level) |
+|---|--------|----------------------|
+| 1 | **Analyst** | Validates inputs and extracts structured signals. |
+| 2 | **Risk & Discovery** | Surfaces risks and discovery angles. |
+| 3 | **Strategy** | Shapes positioning and solution framing. |
+| 4 | **Synthesis** | Assembles the final presales report. |
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Tech stack
 
-## Customize configuration
+- **Vue 3** (Composition API), **Vue Router**, **Pinia**
+- **Vite 7**, **TypeScript**
+- **Element Plus** (forms, feedback)
+- **Tailwind CSS 4** (via Vite plugin), project CSS variables
+- **Axios** — HTTP client to the presales backend (`/api/...`)
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+## Prerequisites
 
-```sh
+- **Node.js** `^20.19.0` or `>=22.12.0` (see `package.json` → `engines`)
+- **npm** (or compatible client)
+- A running **presales backend** that exposes the API expected by this client (default assumed: `http://localhost:3000`)
+
+---
+
+## Environment variables
+
+Vite only exposes variables prefixed with `VITE_`.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `VITE_API_URL` | Recommended | Base URL of the presales backend **without** a trailing slash, e.g. `http://localhost:3000`. If unset, the client falls back to `http://localhost:3000`. |
+
+Copy the example file and adjust:
+
+```bash
+cp env.example .env
+```
+
+Edit `.env`:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+The axios client uses `{VITE_API_URL}/api` as the API prefix (see `src/api/backend-client.ts`).
+
+---
+
+## Local development
+
+### 1. Clone and install
+
+```bash
+git clone <repository-url>
+cd presales-app-fe
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+`postinstall` may run auxiliary codegen (e.g. OpenAPI types); ensure network access if scripts fetch remote specs.
 
-```sh
+### 2. Configure the backend URL
+
+Ensure `.env` exists and `VITE_API_URL` matches where your API listens (same host/port as `app.listen` on the server). No trailing slash.
+
+### 3. Start the backend
+
+Start your presales API on the configured host/port **before** using features that call the network (analyze, auth, reports).
+
+### 4. Start the dev server
+
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Open the URL printed in the terminal (Vite default is often `http://localhost:5173`). The dev server proxies nothing by default—all API calls go directly to `VITE_API_URL` from the browser.
 
-```sh
+### 5. CORS
+
+If the browser blocks requests, allow your dev origin (e.g. `http://localhost:5173`) in the backend CORS configuration.
+
+---
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Type-check, then production build to `dist/` |
+| `npm run build-only` | Production build without a separate type-check step |
+| `npm run preview` | Serve `dist/` locally (after `build`) |
+| `npm run type-check` | Run `vue-tsc --build` |
+| `npm run lint` | ESLint with `--fix` |
+| `npm run openapi-generate` | Regenerate OpenAPI-driven types (if used in your workflow) |
+
+---
+
+## Authentication & API
+
+- **Bearer tokens** — `Authorization: Bearer <access_token>` is attached when a token exists in `sessionStorage` (`presales:access_token`; refresh key `presales:refresh_token` when present).
+- **401 handling** — The client clears the session and redirects to login (with optional `redirect` query) for protected navigation.
+- **Sign-up confirmation** — If the backend returns an email-confirmation link, the app handles hash redirects (e.g. Supabase-style fragments) and surfaces success feedback; adjust backend redirect URLs to your deployed frontend origin.
+
+---
+
+## Production build
+
+```bash
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Output: `dist/`. Serve static files behind HTTPS; set `VITE_API_URL` at **build time** to your production API base URL (or rely on your hosting provider’s env injection).
 
-```sh
-npm run lint
-```
+---
 
-### Type-Check
+## Project structure (orientation)
 
-```sh
-npm run type-check
-```
+- `src/views/` — Route-level views (`HomeView`, `AnalyzeView`, auth, reports)
+- `src/components/` — Reusable UI (report layout, steps, loaders)
+- `src/api/` — Backend client, env, feature APIs
+- `src/router/` — Routes and guards
+- `src/stores/` — Pinia stores (e.g. auth)
+
+---
+
+## IDE & tooling (optional)
+
+- **VS Code** + [Vue — Official (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) for `.vue` and TypeScript integration
+- [Vue DevTools](https://devtools.vuejs.org/) for component inspection in the browser
+
+---
+
+## License
+
+Private / internal — refer to your organization’s policy.

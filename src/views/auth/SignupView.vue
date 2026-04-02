@@ -3,11 +3,13 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import AuthGlowShell from '@/components/auth/AuthGlowShell.vue'
+import AuthCard from '@/components/auth/AuthCard.vue'
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
 import { routeNames } from '@/router/route-names-registry'
 import { useAuthStore } from '@/stores/auth.store'
 import { formatApiError } from '@/utils/api-error'
+
+import { authEmailPasswordRules } from './authFormRules'
 
 const auth = useAuthStore()
 const router = useRouter()
@@ -23,16 +25,7 @@ const error = ref<string | null>(null)
 /** Backend did not return a session — user must confirm email before signing in */
 const checkEmailSent = ref(false)
 
-const rules: FormRules = {
-  email: [
-    { required: true, message: 'Email is required', trigger: 'blur' },
-    { type: 'email', message: 'Enter a valid email', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: 'Password is required', trigger: 'blur' },
-    { min: 8, message: 'At least 8 characters', trigger: 'blur' }
-  ]
-}
+const rules: FormRules = authEmailPasswordRules
 
 async function onSubmit () {
   error.value = null
@@ -58,8 +51,8 @@ async function onSubmit () {
 </script>
 
 <template>
-  <AuthGlowShell>
-    <div class="auth-card">
+  <AuthCard>
+    <template #header>
       <p class="auth-kicker">
         Join the workspace
       </p>
@@ -75,261 +68,82 @@ async function onSubmit () {
           Sign in
         </RouterLink>
       </p>
+    </template>
 
-      <div
-        v-if="checkEmailSent"
-        class="auth-check-email"
-        role="status"
+    <div
+      v-if="checkEmailSent"
+      class="auth-check-email"
+      role="status"
+    >
+      <p class="auth-check-email-title">
+        Check your email
+      </p>
+      <p class="auth-check-email-text">
+        We sent a message to your email address. Open the link in that message to confirm your registration.
+      </p>
+      <RouterLink
+        :to="{ name: routeNames.login }"
+        class="auth-link auth-check-email-link"
       >
-        <p class="auth-check-email-title">
-          Check your email
-        </p>
-        <p class="auth-check-email-text">
-          We sent a message to your email address. Open the link in that message to confirm your registration.
-        </p>
-        <RouterLink
-          :to="{ name: routeNames.login }"
-          class="auth-link auth-check-email-link"
-        >
-          Go to sign in
-        </RouterLink>
-      </div>
-
-      <el-form
-        v-else
-        ref="formRef"
-        :model="form"
-        :rules="rules"
-        label-position="top"
-        class="auth-form"
-        require-asterisk-position="right"
-        @submit.prevent="onSubmit"
-      >
-        <el-form-item
-          label="Email"
-          prop="email"
-        >
-          <el-input
-            v-model="form.email"
-            type="email"
-            autocomplete="email"
-            size="large"
-            class="auth-input"
-          />
-        </el-form-item>
-        <el-form-item
-          label="Password"
-          prop="password"
-        >
-          <el-input
-            v-model="form.password"
-            type="password"
-            autocomplete="new-password"
-            show-password
-            size="large"
-            class="auth-input"
-          />
-        </el-form-item>
-        <div
-          v-if="error"
-          class="auth-error"
-          role="alert"
-        >
-          {{ error }}
-        </div>
-        <button
-          type="submit"
-          class="auth-submit"
-          :disabled="loading"
-        >
-          <span class="auth-submit-inner">
-            <BrandLoader
-              v-if="loading"
-              size="xs"
-            />
-            {{ loading ? 'Creating…' : 'Create account' }}
-          </span>
-        </button>
-      </el-form>
+        Go to sign in
+      </RouterLink>
     </div>
-  </AuthGlowShell>
+
+    <el-form
+      v-else
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="top"
+      class="auth-form"
+      require-asterisk-position="right"
+      @submit.prevent="onSubmit"
+    >
+      <el-form-item
+        label="Email"
+        prop="email"
+      >
+        <el-input
+          v-model="form.email"
+          type="email"
+          autocomplete="email"
+          size="large"
+          class="auth-input"
+        />
+      </el-form-item>
+      <el-form-item
+        label="Password"
+        prop="password"
+      >
+        <el-input
+          v-model="form.password"
+          type="password"
+          autocomplete="new-password"
+          show-password
+          size="large"
+          class="auth-input"
+        />
+      </el-form-item>
+      <div
+        v-if="error"
+        class="auth-error"
+        role="alert"
+      >
+        {{ error }}
+      </div>
+      <button
+        type="submit"
+        class="auth-submit"
+        :disabled="loading"
+      >
+        <span class="auth-submit-inner">
+          <BrandLoader
+            v-if="loading"
+            size="xs"
+          />
+          {{ loading ? 'Creating…' : 'Create account' }}
+        </span>
+      </button>
+    </el-form>
+  </AuthCard>
 </template>
-
-<style scoped>
-.auth-card {
-  padding: 18px;
-  border-radius: var(--radius-xl);
-  background: linear-gradient(
-    145deg,
-    rgba(22, 29, 23, 0.92) 0%,
-    rgba(12, 16, 14, 0.88) 100%
-  );
-  border: 1px solid rgba(0, 230, 118, 0.18);
-  box-shadow:
-    0 0 0 1px rgba(0, 230, 118, 0.06) inset,
-    0 24px 64px rgba(0, 0, 0, 0.45),
-    0 0 80px rgba(0, 230, 118, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-}
-
-.auth-kicker {
-  margin: 0 0 var(--space-2);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent-primary);
-  opacity: 0.9;
-}
-
-.auth-heading {
-  margin: 0 0 var(--space-3);
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.auth-lede {
-  margin: 0 0 var(--space-2);
-  font-size: 0.9375rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-.auth-link {
-  color: var(--accent-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.auth-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.auth-form {
-  margin-top: var(--space-6);
-}
-
-.auth-form :deep(.el-form-item__label) {
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.auth-form :deep(.el-form-item) {
-  margin-bottom: var(--space-5);
-}
-
-.auth-form :deep(.el-input__wrapper) {
-  background: rgba(0, 0, 0, 0.35) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.15) !important;
-  transition: box-shadow var(--transition-fast) !important;
-}
-
-.auth-form :deep(.el-input__wrapper:hover) {
-  box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.28) !important;
-}
-
-.auth-form :deep(.el-input__wrapper.is-focus) {
-  box-shadow: 0 0 0 1px var(--accent-primary), 0 0 24px rgba(0, 230, 118, 0.15) !important;
-}
-
-.auth-form :deep(.el-input__inner) {
-  color: var(--text-primary);
-  font-size: 15px;
-}
-
-.auth-check-email {
-  margin-top: var(--space-6);
-  padding: var(--space-5) var(--space-4);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--text-secondary);
-  background: rgba(0, 230, 118, 0.06);
-  border: 1px solid rgba(0, 230, 118, 0.22);
-  border-radius: var(--radius-md);
-}
-
-.auth-check-email-title {
-  margin: 0 0 var(--space-3);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.auth-check-email-text {
-  margin: 0 0 var(--space-4);
-}
-
-.auth-check-email-link {
-  display: inline-block;
-  font-weight: 600;
-}
-
-.auth-error {
-  margin-bottom: var(--space-4);
-  padding: var(--space-3) var(--space-4);
-  font-size: 13px;
-  line-height: 1.45;
-  color: #ff8a80;
-  background: rgba(255, 82, 82, 0.08);
-  border: 1px solid rgba(255, 82, 82, 0.25);
-  border-radius: var(--radius-md);
-}
-
-.auth-submit-inner {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.auth-submit-inner :deep(.brand-loader) {
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.45));
-}
-
-.auth-submit {
-  width: 100%;
-  margin-top: var(--space-2);
-  height: 50px;
-  border: none;
-  border-radius: var(--radius-md);
-  background: var(--gradient-brand);
-  color: var(--text-inverse);
-  font-size: 15px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  box-shadow:
-    0 0 0 1px rgba(0, 230, 118, 0.25),
-    0 12px 40px rgba(0, 230, 118, 0.15);
-  transition:
-    filter var(--transition-fast),
-    transform var(--transition-fast),
-    opacity var(--transition-fast);
-}
-
-.auth-submit:hover:not(:disabled) {
-  filter: brightness(1.06);
-  transform: translateY(-1px);
-}
-
-.auth-submit:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-.auth-submit:focus-visible {
-  outline: 2px solid var(--accent-primary);
-  outline-offset: 3px;
-}
-</style>
