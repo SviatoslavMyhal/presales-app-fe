@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
 import SavedReportCard from '@/components/reports/SavedReportCard.vue'
+import { routeNames } from '@/router/route-names-registry'
 import { useReportsList } from '@/composables/useReportsList'
 
 const {
@@ -33,9 +34,17 @@ const {
       class="reports-content"
       :class="{ 'reports-content--loading': loading }"
     >
-      <h2 class="reports-saved-heading">
-        Saved reports
-      </h2>
+      <div class="reports-list-toolbar">
+        <h2 class="reports-saved-heading">
+          Saved reports
+        </h2>
+        <RouterLink
+          :to="{ name: routeNames.analyze }"
+          class="reports-new-analysis"
+        >
+          New analysis
+        </RouterLink>
+      </div>
       <div
         v-if="loading"
         class="brand-loading-mask"
@@ -132,15 +141,56 @@ const {
   margin-bottom: var(--space-5);
 }
 
-.reports-saved-heading {
+.reports-list-toolbar {
   position: relative;
   z-index: 1;
-  margin: 0 0 var(--space-5);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.reports-saved-heading {
+  margin: 0;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--text-muted);
+}
+
+.reports-new-analysis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-inverse);
+  text-decoration: none;
+  background: var(--gradient-brand);
+  border-radius: var(--radius-md);
+  border: none;
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.25),
+    0 8px 28px rgba(0, 230, 118, 0.12);
+  transition:
+    filter var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.reports-new-analysis:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+.reports-new-analysis:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
 }
 
 .reports-content {

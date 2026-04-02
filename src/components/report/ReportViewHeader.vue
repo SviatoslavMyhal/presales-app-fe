@@ -18,7 +18,8 @@ defineProps<{
   projectTitle: string
   variant: 'live' | 'saved'
   analyzePayload?: PresalesRequest | null
-  canSave: boolean
+  showSaveControls: boolean
+  showLoginToSaveHint: boolean
   saving: boolean
   canShowProposalCta: boolean
   savedReportId?: string | null
@@ -51,7 +52,7 @@ const emit = defineEmits<{
     </p>
     <div class="report-header-actions report-header-actions--desktop">
       <div
-        v-if="canSave"
+        v-if="showSaveControls"
         class="save-wrap"
       >
         <input
@@ -71,7 +72,7 @@ const emit = defineEmits<{
         </button>
       </div>
       <RouterLink
-        v-else-if="variant === 'live' && analyzePayload"
+        v-else-if="showLoginToSaveHint"
         :to="{ name: routeNames.login, query: { redirect: '/' } }"
         class="save-hint-link"
       >

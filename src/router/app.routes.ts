@@ -11,6 +11,12 @@ export const appRoutes: RouteRecordRaw[] = [
         path: '',
         name: routeNames.home,
         component: () => import('@/views/HomeView.vue'),
+        meta: { title: 'PreSales AI' }
+      },
+      {
+        path: 'analyze',
+        name: routeNames.analyze,
+        component: () => import('@/views/AnalyzeView.vue'),
         meta: { title: 'Analyze' }
       },
       {

@@ -10,7 +10,7 @@ import {
 } from '@/utils/exportReport'
 import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
 export type ReportViewProps = {
   report?: SynthesisReport
@@ -30,9 +30,24 @@ export function useReportView (props: ReportViewProps) {
   const auth = useAuthStore()
   const saveTitle = ref('')
   const saving = ref(false)
+  /** After a successful save, hide title input + Save until a new report is shown */
+  const reportSaved = ref(false)
 
   const canSave = computed(
     () => auth.isAuthenticated && Boolean(props.analyzePayload?.job_post?.trim()),
+  )
+
+  const showSaveControls = computed(() => canSave.value && !reportSaved.value)
+
+  const showLoginToSaveHint = computed(
+    () => props.variant === 'live' && Boolean(props.analyzePayload) && !auth.isAuthenticated,
+  )
+
+  watch(
+    () => props.report,
+    () => {
+      reportSaved.value = false
+    },
   )
 
   async function saveToWorkspace () {
@@ -49,6 +64,7 @@ export function useReportView (props: ReportViewProps) {
         ...(p.constraints?.trim() ? { constraints: p.constraints.trim() } : {}),
         ...(saveTitle.value.trim() ? { title: saveTitle.value.trim() } : {})
       })
+      reportSaved.value = true
       ElMessage.success('Report saved to your workspace')
     } catch (e) {
       ElMessage.error(formatApiError(e))
@@ -212,7 +228,8 @@ export function useReportView (props: ReportViewProps) {
   return {
     saveTitle,
     saving,
-    canSave,
+    showSaveControls,
+    showLoginToSaveHint,
     saveToWorkspace,
     activeSection,
     proposalDrawerOpen,

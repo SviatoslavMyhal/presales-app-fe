@@ -23,7 +23,8 @@ const navItems = reportViewNavItems
 const {
   saveTitle,
   saving,
-  canSave,
+  showSaveControls,
+  showLoginToSaveHint,
   saveToWorkspace,
   activeSection,
   proposalDrawerOpen,
@@ -55,7 +56,8 @@ const {
       :project-title="projectTitle"
       :variant="variant"
       :analyze-payload="analyzePayload"
-      :can-save="canSave"
+      :show-save-controls="showSaveControls"
+      :show-login-to-save-hint="showLoginToSaveHint"
       :saving="saving"
       :can-show-proposal-cta="canShowProposalCta"
       :saved-report-id="savedReportId"
@@ -89,7 +91,8 @@ const {
       v-model:save-title="saveTitle"
       :show-mobile-nav="showMobileNav"
       :nav-items="navItems"
-      :can-save="canSave"
+      :show-save-controls="showSaveControls"
+      :show-login-to-save-hint="showLoginToSaveHint"
       :saving="saving"
       :variant="variant"
       :analyze-payload="analyzePayload"

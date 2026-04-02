@@ -29,7 +29,8 @@ const {
   isLastStep,
   nextStep,
   prevStep,
-  getPayload
+  getPayload,
+  resetForm
 } = useStepForm()
 
 const activeConfig = computed((): StepConfig => {
@@ -44,6 +45,7 @@ watch(
   () => props.initialPayload,
   (v) => {
     if (!v) {
+      resetForm()
       return
     }
     formData.value.job_post = v.job_post ?? ''

@@ -9,7 +9,8 @@ const saveTitle = defineModel<string>('saveTitle', { default: '' })
 defineProps<{
   showMobileNav: boolean
   navItems: readonly { id: string; label: string; icon: string }[]
-  canSave: boolean
+  showSaveControls: boolean
+  showLoginToSaveHint: boolean
   saving: boolean
   variant: 'live' | 'saved'
   analyzePayload?: PresalesRequest | null
@@ -163,7 +164,7 @@ function onScroll (id: string) {
         </h2>
 
         <div
-          v-if="canSave"
+          v-if="showSaveControls"
           class="mobile-sheet__save"
         >
           <label
@@ -191,7 +192,7 @@ function onScroll (id: string) {
         </div>
 
         <RouterLink
-          v-else-if="variant === 'live' && analyzePayload"
+          v-else-if="showLoginToSaveHint"
           :to="{ name: routeNames.login, query: { redirect: '/' } }"
           class="mobile-sheet__login-hint"
           @click="emit('close')"

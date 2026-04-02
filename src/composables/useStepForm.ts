@@ -77,6 +77,18 @@ export function useStepForm() {
     return out
   }
 
+  function resetForm (): void {
+    formData.value = {
+      job_post: '',
+      client_messages: '',
+      team_expertise: '',
+      constraints: ''
+    }
+    currentStep.value = 0
+    touched.value = [false, false, false, false]
+    errors.value = ['', '', '', '']
+  }
+
   return {
     formData,
     currentStep,
@@ -88,6 +100,7 @@ export function useStepForm() {
     nextStep,
     prevStep,
     validateStep,
-    getPayload
+    getPayload,
+    resetForm
   }
 }
