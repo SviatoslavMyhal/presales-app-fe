@@ -1,20 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useAppFloatingHome } from '@/composables/useAppFloatingHome'
 
-import { routeNames } from '@/router/route-names-registry'
-
-const route = useRoute()
-const router = useRouter()
-
-/** Report detail uses `ReportView`’s own sticky bar (wordmark + actions); floating home would duplicate it. */
-const showFloatingHome = computed(
-  () => route.name !== routeNames.home && route.name !== routeNames.reportDetail,
-)
-
-function goHome () {
-  router.push({ name: routeNames.home })
-}
+const { showFloatingHome, goHome } = useAppFloatingHome()
 </script>
 
 <template>

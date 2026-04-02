@@ -27,9 +27,22 @@ export const appRoutes: RouteRecordRaw[] = [
       },
       {
         path: 'reports',
-        name: routeNames.reports,
-        component: () => import('@/views/reports/ReportsListView.vue'),
-        meta: { requiresAuth: true, title: 'My reports' }
+        component: () => import('@/views/reports/ReportsLayout.vue'),
+        meta: { requiresAuth: true },
+        children: [
+          {
+            path: '',
+            name: routeNames.reports,
+            component: () => import('@/views/reports/ReportsListView.vue'),
+            meta: { title: 'My reports' }
+          },
+          {
+            path: 'analytics',
+            name: routeNames.reportsAnalytics,
+            component: () => import('@/views/reports/AnalyticsView.vue'),
+            meta: { title: 'Analytics' }
+          }
+        ]
       },
       {
         path: 'reports/:id',

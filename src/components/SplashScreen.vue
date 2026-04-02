@@ -5,7 +5,6 @@ import { useRouter } from 'vue-router'
 import { routeNames } from '@/router/route-names-registry'
 import { useAuthStore } from '@/stores/auth.store'
 import type { PresalesRequest, PresalesResponse, SynthesisReport } from '@/types/presales'
-import { onMounted, ref } from 'vue'
 
 defineProps<{
   result?: PresalesResponse | null

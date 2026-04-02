@@ -4,5 +4,6 @@ export const routeNames = {
   login: 'login',
   reportDetail: 'reportDetail',
   reports: 'reports',
+  reportsAnalytics: 'reportsAnalytics',
   signup: 'signup'
 }

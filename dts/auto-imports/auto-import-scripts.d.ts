@@ -7,6 +7,7 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue').EffectScope
+  const REPORTS_LIST_PAGE_SIZE: typeof import('../../src/composables/useReportsList').REPORTS_LIST_PAGE_SIZE
   const VueGlobalPropertiesPlugin: typeof import('../../src/plugins/vue-global-properties.plugin').VueGlobalPropertiesPlugin
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const apiClient: typeof import('src/features/platform/api/client').apiClient
@@ -46,6 +47,7 @@ declare global {
   const extractStoredIntelligence: typeof import('../../src/utils/storedReport').extractStoredIntelligence
   const extractSynthesisReport: typeof import('../../src/utils/storedReport').extractSynthesisReport
   const filters: typeof import('../../src/utils/filters').filters
+  const fmt1: typeof import('../../src/utils/analyticsFormat').fmt1
   const formatApiError: typeof import('../../src/utils/api-error').formatApiError
   const formatLabel: typeof import('../../src/utils/formatLabel').formatLabel
   const generalService: typeof import('../../src/services/general.service').generalService
@@ -53,6 +55,7 @@ declare global {
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
   const getCurrentWatcher: typeof import('vue').getCurrentWatcher
+  const getPresalesPipelineFailureMessage: typeof import('../../src/utils/presalesPipeline').getPresalesPipelineFailureMessage
   const globalProperties: typeof import('../../src/plugins/vue-global-properties.plugin').globalProperties
   const h: typeof import('vue').h
   const helpers: typeof import('../../src/utils/helpers').helpers
@@ -63,6 +66,7 @@ declare global {
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
   const isDefined: typeof import('@vueuse/core').isDefined
+  const isPresalesPipelineFailed: typeof import('../../src/utils/presalesPipeline').isPresalesPipelineFailed
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
   const isReadonly: typeof import('vue').isReadonly
@@ -98,6 +102,7 @@ declare global {
   const onUpdated: typeof import('vue').onUpdated
   const onWatcherCleanup: typeof import('vue').onWatcherCleanup
   const pausableWatch: typeof import('@vueuse/core').pausableWatch
+  const pct: typeof import('../../src/utils/analyticsFormat').pct
   const provide: typeof import('vue').provide
   const provideLocal: typeof import('@vueuse/core').provideLocal
   const reactify: typeof import('@vueuse/core').reactify
@@ -123,6 +128,7 @@ declare global {
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
+  const shortDate: typeof import('../../src/utils/analyticsFormat').shortDate
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
   const syncRefs: typeof import('@vueuse/core').syncRefs
@@ -146,8 +152,10 @@ declare global {
   const until: typeof import('@vueuse/core').until
   const useAbortController: typeof import('../../src/composables/useAbortController').useAbortController
   const useActiveElement: typeof import('@vueuse/core').useActiveElement
+  const useAnalyticsSummary: typeof import('../../src/composables/useAnalyticsSummary').useAnalyticsSummary
   const useAnimate: typeof import('@vueuse/core').useAnimate
   const useApiClient: typeof import('../../src/features/platform/api/client').useApiClient
+  const useAppFloatingHome: typeof import('../../src/composables/useAppFloatingHome').useAppFloatingHome
   const useArrayDifference: typeof import('@vueuse/core').useArrayDifference
   const useArrayEvery: typeof import('@vueuse/core').useArrayEvery
   const useArrayFilter: typeof import('@vueuse/core').useArrayFilter
@@ -272,6 +280,10 @@ declare global {
   const usePrevious: typeof import('@vueuse/core').usePrevious
   const useRafFn: typeof import('@vueuse/core').useRafFn
   const useRefHistory: typeof import('@vueuse/core').useRefHistory
+  const useReportDetail: typeof import('../../src/composables/useReportDetail').useReportDetail
+  const useReportView: typeof import('../../src/composables/useReportView').useReportView
+  const useReportsList: typeof import('../../src/composables/useReportsList').useReportsList
+  const useReportsWorkspaceLede: typeof import('../../src/composables/useReportsWorkspaceLede').useReportsWorkspaceLede
   const useRequiredRule: typeof import('../../src/composables/useFormConfig').useRequiredRule
   const useResizeObserver: typeof import('@vueuse/core').useResizeObserver
   const useRoute: typeof import('vue-router').useRoute
@@ -352,6 +364,9 @@ declare global {
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
+  export type { ReportViewProps } from '../../src/composables/useReportView'
+  import('../../src/composables/useReportView')
+  // @ts-ignore
   export type { StepConfig, StepRule } from '../../src/composables/useStepForm'
   import('../../src/composables/useStepForm')
   // @ts-ignore
@@ -365,6 +380,7 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly REPORTS_LIST_PAGE_SIZE: UnwrapRef<typeof import('../../src/composables/useReportsList')['REPORTS_LIST_PAGE_SIZE']>
     readonly VueGlobalPropertiesPlugin: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['VueGlobalPropertiesPlugin']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly apiClient: UnwrapRef<typeof import('src/features/platform/api/client')['apiClient']>
@@ -404,6 +420,7 @@ declare module 'vue' {
     readonly extractStoredIntelligence: UnwrapRef<typeof import('../../src/utils/storedReport')['extractStoredIntelligence']>
     readonly extractSynthesisReport: UnwrapRef<typeof import('../../src/utils/storedReport')['extractSynthesisReport']>
     readonly filters: UnwrapRef<typeof import('../../src/utils/filters')['filters']>
+    readonly fmt1: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['fmt1']>
     readonly formatApiError: UnwrapRef<typeof import('../../src/utils/api-error')['formatApiError']>
     readonly formatLabel: UnwrapRef<typeof import('../../src/utils/formatLabel')['formatLabel']>
     readonly generalService: UnwrapRef<typeof import('../../src/services/general.service')['generalService']>
@@ -411,6 +428,7 @@ declare module 'vue' {
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
     readonly getCurrentWatcher: UnwrapRef<typeof import('vue')['getCurrentWatcher']>
+    readonly getPresalesPipelineFailureMessage: UnwrapRef<typeof import('../../src/utils/presalesPipeline')['getPresalesPipelineFailureMessage']>
     readonly globalProperties: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['globalProperties']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly helpers: UnwrapRef<typeof import('../../src/utils/helpers')['helpers']>
@@ -420,6 +438,7 @@ declare module 'vue' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isPresalesPipelineFailed: UnwrapRef<typeof import('../../src/utils/presalesPipeline')['isPresalesPipelineFailed']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
@@ -455,6 +474,7 @@ declare module 'vue' {
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
+    readonly pct: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['pct']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -479,6 +499,7 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly shortDate: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['shortDate']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
     readonly syncRefs: UnwrapRef<typeof import('@vueuse/core')['syncRefs']>
@@ -502,7 +523,9 @@ declare module 'vue' {
     readonly until: UnwrapRef<typeof import('@vueuse/core')['until']>
     readonly useAbortController: UnwrapRef<typeof import('../../src/composables/useAbortController')['useAbortController']>
     readonly useActiveElement: UnwrapRef<typeof import('@vueuse/core')['useActiveElement']>
+    readonly useAnalyticsSummary: UnwrapRef<typeof import('../../src/composables/useAnalyticsSummary')['useAnalyticsSummary']>
     readonly useAnimate: UnwrapRef<typeof import('@vueuse/core')['useAnimate']>
+    readonly useAppFloatingHome: UnwrapRef<typeof import('../../src/composables/useAppFloatingHome')['useAppFloatingHome']>
     readonly useArrayDifference: UnwrapRef<typeof import('@vueuse/core')['useArrayDifference']>
     readonly useArrayEvery: UnwrapRef<typeof import('@vueuse/core')['useArrayEvery']>
     readonly useArrayFilter: UnwrapRef<typeof import('@vueuse/core')['useArrayFilter']>
@@ -626,6 +649,10 @@ declare module 'vue' {
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
+    readonly useReportDetail: UnwrapRef<typeof import('../../src/composables/useReportDetail')['useReportDetail']>
+    readonly useReportView: UnwrapRef<typeof import('../../src/composables/useReportView')['useReportView']>
+    readonly useReportsList: UnwrapRef<typeof import('../../src/composables/useReportsList')['useReportsList']>
+    readonly useReportsWorkspaceLede: UnwrapRef<typeof import('../../src/composables/useReportsWorkspaceLede')['useReportsWorkspaceLede']>
     readonly useRequiredRule: UnwrapRef<typeof import('../../src/composables/useFormConfig')['useRequiredRule']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

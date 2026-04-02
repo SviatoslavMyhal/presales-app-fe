@@ -7,6 +7,11 @@ import { analyzePresales } from '@/api/presales'
 import type { PresalesAnalyzeResult } from '@/api/backend-types'
 import type { PresalesRequest, PresalesResponse } from '@/types/presales'
 import { formatApiError } from '@/utils/api-error'
+import {
+  getPresalesPipelineFailureMessage,
+  isPresalesPipelineFailed,
+} from '@/utils/presalesPipeline'
+import { ElMessage } from 'element-plus'
 import type { Component } from 'vue'
 import { computed, nextTick, ref, shallowRef } from 'vue'
 
@@ -64,7 +69,22 @@ async function handleFormSubmit(payload: PresalesRequest) {
   currentComponent.value = AgentProgress
   error.value = null
   try {
-    result.value = await analyzePresales(payload)
+    const res = await analyzePresales(payload)
+    if (isPresalesPipelineFailed(res)) {
+      const msg = getPresalesPipelineFailureMessage(res)
+      result.value = null
+      submittedPayload.value = null
+      error.value = null
+      ElMessage.error({
+        message: msg,
+        duration: 0,
+        showClose: true,
+      })
+      await nextTick()
+      goToSplash()
+      return
+    }
+    result.value = res
     await nextTick()
     phase.value = 'report'
     currentComponent.value = ReportView
