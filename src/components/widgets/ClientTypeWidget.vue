@@ -203,15 +203,6 @@ onMounted(() => {
   line-height: 1.5;
 }
 
-.split-kicker {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin: 0 0 var(--space-4);
-}
-
 .signals--alone {
   margin-top: 0;
   padding-top: 0;

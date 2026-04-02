@@ -11,4 +11,4 @@ import AuthGlowShell from '@/components/auth/AuthGlowShell.vue'
   </AuthGlowShell>
 </template>
 
-<style src="./auth-card.css"></style>
+<style src="@/assets/styles/auth-card.css"></style>

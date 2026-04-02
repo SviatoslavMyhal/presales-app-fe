@@ -8,7 +8,7 @@ import { routeNames } from '@/router/route-names-registry'
 import { useAuthStore } from '@/stores/auth.store'
 import { handleAuthHashCallback } from '@/utils/auth-hash-callback'
 
-import '@/assets/main.css'
+import '@/assets/styles/app.css'
 
 const app = createApp(App)
 const pinia = createPinia()

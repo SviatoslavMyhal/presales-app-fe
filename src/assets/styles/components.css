@@ -1,0 +1,9 @@
+/* Small uppercase label above a split column (widgets) */
+.split-kicker {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin: 0 0 var(--space-4);
+}

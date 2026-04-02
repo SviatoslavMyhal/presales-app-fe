@@ -59,7 +59,7 @@ const dashOffset = computed(() => {
 
 const animatedOffset = ref(circumference)
 
-function runArcAnimation () {
+function runArcAnimation() {
   animatedOffset.value = circumference
   setTimeout(() => {
     animatedOffset.value = dashOffset.value
@@ -246,15 +246,6 @@ watch(
   color: var(--text-secondary);
   line-height: 1.65;
   padding: 0 var(--space-1);
-}
-
-.split-kicker {
-  font-size: 11px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 600;
-  margin: 0 0 var(--space-4);
 }
 
 .reasons--alone {

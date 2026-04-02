@@ -281,6 +281,7 @@ declare global {
   const usePreferredReducedMotion: typeof import('@vueuse/core').usePreferredReducedMotion
   const usePreferredReducedTransparency: typeof import('@vueuse/core').usePreferredReducedTransparency
   const usePrevious: typeof import('@vueuse/core').usePrevious
+  const useProposalGenerator: typeof import('../../src/composables/useProposalGenerator').useProposalGenerator
   const useRafFn: typeof import('@vueuse/core').useRafFn
   const useRefHistory: typeof import('@vueuse/core').useRefHistory
   const useReportDetail: typeof import('../../src/composables/useReportDetail').useReportDetail
@@ -366,6 +367,9 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { UseProposalGeneratorParams } from '../../src/composables/useProposalGenerator'
+  import('../../src/composables/useProposalGenerator')
   // @ts-ignore
   export type { ReportViewProps } from '../../src/composables/useReportView'
   import('../../src/composables/useReportView')
@@ -655,6 +659,7 @@ declare module 'vue' {
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
     readonly usePreferredReducedTransparency: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedTransparency']>
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
+    readonly useProposalGenerator: UnwrapRef<typeof import('../../src/composables/useProposalGenerator')['useProposalGenerator']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
     readonly useRefHistory: UnwrapRef<typeof import('@vueuse/core')['useRefHistory']>
     readonly useReportDetail: UnwrapRef<typeof import('../../src/composables/useReportDetail')['useReportDetail']>
