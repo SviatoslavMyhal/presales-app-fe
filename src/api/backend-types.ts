@@ -1,0 +1,73 @@
+/** Session returned from signup/login when auth succeeds */
+export interface AuthSession {
+  access_token: string
+  refresh_token?: string
+  expires_in?: number
+}
+
+export interface AuthUser {
+  id: string
+  email: string
+}
+
+export interface SignupLoginResponse {
+  user?: AuthUser
+  session?: AuthSession
+}
+
+export interface AuthMeResponse {
+  user: AuthUser
+}
+
+export interface PresalesAnalyzeBody {
+  job_post: string
+  client_messages?: string
+  team_expertise?: string
+  constraints?: string
+}
+
+export interface AnalyzeSaveBody extends PresalesAnalyzeBody {
+  title?: string
+}
+
+/** Full multi-agent analyze result (shape may vary by backend) */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PresalesAnalyzeResult = Record<string, any>
+
+export interface AnalyzeSaveResponse {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  report?: any
+  analysis: PresalesAnalyzeResult
+}
+
+export interface CreateReportBody {
+  title?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  payload: Record<string, unknown>
+}
+
+export interface ReportListItem {
+  id: string
+  user_id: string
+  title: string | null
+  created_at: string
+  updated_at: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  result?: any
+}
+
+export interface ReportsListResponse {
+  reports: ReportListItem[]
+  limit: number
+  offset: number
+}
+
+export interface ReportDetail {
+  id: string
+  user_id: string
+  title: string | null
+  created_at: string
+  updated_at: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  result: Record<string, unknown>
+}
