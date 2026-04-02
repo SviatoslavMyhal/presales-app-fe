@@ -10,7 +10,7 @@ declare global {
   const REPORTS_LIST_PAGE_SIZE: typeof import('../../src/composables/useReportsList').REPORTS_LIST_PAGE_SIZE
   const VueGlobalPropertiesPlugin: typeof import('../../src/plugins/vue-global-properties.plugin').VueGlobalPropertiesPlugin
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
-  const apiClient: typeof import('src/features/platform/api/client').apiClient
+  const apiClient: typeof import('../../src/features/platform/api/client').apiClient
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
   const buildStubIntelligenceForProposal: typeof import('../../src/utils/storedReport').buildStubIntelligenceForProposal
@@ -59,6 +59,7 @@ declare global {
   const globalProperties: typeof import('../../src/plugins/vue-global-properties.plugin').globalProperties
   const h: typeof import('vue').h
   const helpers: typeof import('../../src/utils/helpers').helpers
+  const homeRoutes: typeof import('../../src/views/home/home.routes.js').homeRoutes
   const homeService: typeof import('../../src/views/home/home.service').homeService
   const homeViewVue: typeof import('../../src/views/HomeView.vue').default
   const humanizeKey: typeof import('../../src/utils/formatLabel').humanizeKey
@@ -101,6 +102,7 @@ declare global {
   const onUnmounted: typeof import('vue').onUnmounted
   const onUpdated: typeof import('vue').onUpdated
   const onWatcherCleanup: typeof import('vue').onWatcherCleanup
+  const parseDynamicKeys: typeof import('../../src/features/platform/api/helpers').parseDynamicKeys
   const pausableWatch: typeof import('@vueuse/core').pausableWatch
   const pct: typeof import('../../src/utils/analyticsFormat').pct
   const provide: typeof import('vue').provide
@@ -372,6 +374,9 @@ declare global {
   // @ts-ignore
   export type { StoredInputFields } from '../../src/utils/storedReport'
   import('../../src/utils/storedReport')
+  // @ts-ignore
+  export type { paths, webhooks, components, $defs, operations } from '../../src/features/platform/api/schema'
+  import('../../src/features/platform/api/schema')
 }
 
 // for vue template auto import
@@ -383,7 +388,7 @@ declare module 'vue' {
     readonly REPORTS_LIST_PAGE_SIZE: UnwrapRef<typeof import('../../src/composables/useReportsList')['REPORTS_LIST_PAGE_SIZE']>
     readonly VueGlobalPropertiesPlugin: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['VueGlobalPropertiesPlugin']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
-    readonly apiClient: UnwrapRef<typeof import('src/features/platform/api/client')['apiClient']>
+    readonly apiClient: UnwrapRef<typeof import('../../src/features/platform/api/client')['apiClient']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
     readonly buildStubIntelligenceForProposal: UnwrapRef<typeof import('../../src/utils/storedReport')['buildStubIntelligenceForProposal']>
@@ -432,6 +437,7 @@ declare module 'vue' {
     readonly globalProperties: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['globalProperties']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
     readonly helpers: UnwrapRef<typeof import('../../src/utils/helpers')['helpers']>
+    readonly homeRoutes: UnwrapRef<typeof import('../../src/views/home/home.routes.js')['homeRoutes']>
     readonly homeService: UnwrapRef<typeof import('../../src/views/home/home.service')['homeService']>
     readonly humanizeKey: UnwrapRef<typeof import('../../src/utils/formatLabel')['humanizeKey']>
     readonly ignorableWatch: UnwrapRef<typeof import('@vueuse/core')['ignorableWatch']>
@@ -473,6 +479,7 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly parseDynamicKeys: UnwrapRef<typeof import('../../src/features/platform/api/helpers')['parseDynamicKeys']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly pct: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['pct']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
@@ -619,7 +626,6 @@ declare module 'vue' {
     readonly useMemoize: UnwrapRef<typeof import('@vueuse/core')['useMemoize']>
     readonly useMemory: UnwrapRef<typeof import('@vueuse/core')['useMemory']>
     readonly useMinLenRule: UnwrapRef<typeof import('../../src/composables/useFormConfig')['useMinLenRule']>
-    readonly useModals: UnwrapRef<typeof import('../../src/features/platform/modals/composables/useModals')['useModals']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
     readonly useMounted: UnwrapRef<typeof import('@vueuse/core')['useMounted']>
     readonly useMouse: UnwrapRef<typeof import('@vueuse/core')['useMouse']>

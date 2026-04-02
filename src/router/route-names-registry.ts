@@ -2,8 +2,8 @@
 export const routeNames = {
   home: 'home',
   login: 'login',
-  reportDetail: 'reportDetail',
+  signup: 'signup',
   reports: 'reports',
   reportsAnalytics: 'reportsAnalytics',
-  signup: 'signup'
+  reportDetail: 'reportDetail'
 }
