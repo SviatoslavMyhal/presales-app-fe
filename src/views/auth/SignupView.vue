@@ -20,6 +20,8 @@ const form = reactive({
 
 const loading = ref(false)
 const error = ref<string | null>(null)
+/** Backend did not return a session — user must confirm email before signing in */
+const checkEmailSent = ref(false)
 
 const rules: FormRules = {
   email: [
@@ -42,7 +44,11 @@ async function onSubmit () {
   loading.value = true
   try {
     await auth.signup(form.email.trim(), form.password)
-    router.replace({ name: routeNames.home })
+    if (auth.isAuthenticated) {
+      router.replace({ name: routeNames.home })
+    } else {
+      checkEmailSent.value = true
+    }
   } catch (e) {
     error.value = formatApiError(e)
   } finally {
@@ -70,7 +76,27 @@ async function onSubmit () {
         </RouterLink>
       </p>
 
+      <div
+        v-if="checkEmailSent"
+        class="auth-check-email"
+        role="status"
+      >
+        <p class="auth-check-email-title">
+          Check your email
+        </p>
+        <p class="auth-check-email-text">
+          We sent a message to your email address. Open the link in that message to confirm your registration.
+        </p>
+        <RouterLink
+          :to="{ name: routeNames.login }"
+          class="auth-link auth-check-email-link"
+        >
+          Go to sign in
+        </RouterLink>
+      </div>
+
       <el-form
+        v-else
         ref="formRef"
         :model="form"
         :rules="rules"
@@ -220,6 +246,33 @@ async function onSubmit () {
 .auth-form :deep(.el-input__inner) {
   color: var(--text-primary);
   font-size: 15px;
+}
+
+.auth-check-email {
+  margin-top: var(--space-6);
+  padding: var(--space-5) var(--space-4);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  background: rgba(0, 230, 118, 0.06);
+  border: 1px solid rgba(0, 230, 118, 0.22);
+  border-radius: var(--radius-md);
+}
+
+.auth-check-email-title {
+  margin: 0 0 var(--space-3);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.auth-check-email-text {
+  margin: 0 0 var(--space-4);
+}
+
+.auth-check-email-link {
+  display: inline-block;
+  font-weight: 600;
 }
 
 .auth-error {

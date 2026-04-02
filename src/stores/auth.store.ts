@@ -35,14 +35,16 @@ export const useAuthStore = defineStore('auth', () => {
     sessionStorage.removeItem(AUTH_STORAGE_KEYS.refreshToken)
   }
 
-  async function hydrateUser (): Promise<void> {
+  async function hydrateUser (options?: { clearOnError?: boolean }): Promise<void> {
     readFromStorage()
     if (!accessToken.value) return
     try {
       const res = await authMe()
       user.value = res.user
     } catch {
-      clearSession()
+      if (options?.clearOnError !== false) {
+        clearSession()
+      }
     }
   }
 

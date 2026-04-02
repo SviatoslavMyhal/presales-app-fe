@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from 'element-plus'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import AuthGlowShell from '@/components/auth/AuthGlowShell.vue'
@@ -21,6 +21,14 @@ const form = reactive({
 
 const loading = ref(false)
 const error = ref<string | null>(null)
+
+onMounted(() => {
+  if (auth.isAuthenticated) {
+    const raw = route.query.redirect
+    const redirect = typeof raw === 'string' && raw.startsWith('/') ? raw : '/'
+    void router.replace(redirect)
+  }
+})
 
 const rules: FormRules = {
   email: [

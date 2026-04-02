@@ -58,6 +58,7 @@ declare global {
   const getPresalesPipelineFailureMessage: typeof import('../../src/utils/presalesPipeline').getPresalesPipelineFailureMessage
   const globalProperties: typeof import('../../src/plugins/vue-global-properties.plugin').globalProperties
   const h: typeof import('vue').h
+  const handleAuthHashCallback: typeof import('../../src/utils/auth-hash-callback').handleAuthHashCallback
   const helpers: typeof import('../../src/utils/helpers').helpers
   const homeRoutes: typeof import('../../src/views/home/home.routes.js').homeRoutes
   const homeService: typeof import('../../src/views/home/home.service').homeService
@@ -436,6 +437,7 @@ declare module 'vue' {
     readonly getPresalesPipelineFailureMessage: UnwrapRef<typeof import('../../src/utils/presalesPipeline')['getPresalesPipelineFailureMessage']>
     readonly globalProperties: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['globalProperties']>
     readonly h: UnwrapRef<typeof import('vue')['h']>
+    readonly handleAuthHashCallback: UnwrapRef<typeof import('../../src/utils/auth-hash-callback')['handleAuthHashCallback']>
     readonly helpers: UnwrapRef<typeof import('../../src/utils/helpers')['helpers']>
     readonly homeRoutes: UnwrapRef<typeof import('../../src/views/home/home.routes.js')['homeRoutes']>
     readonly homeService: UnwrapRef<typeof import('../../src/views/home/home.service')['homeService']>

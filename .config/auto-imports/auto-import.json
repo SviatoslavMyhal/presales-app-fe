@@ -75,6 +75,7 @@
     "getPresalesPipelineFailureMessage": "readonly",
     "globalProperties": "readonly",
     "h": "readonly",
+    "handleAuthHashCallback": "readonly",
     "helpers": "readonly",
     "homeRoutes": "readonly",
     "homeService": "readonly",
