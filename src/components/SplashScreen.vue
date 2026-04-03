@@ -276,7 +276,7 @@ const particles = [
 .splash-ambient__mesh {
   position: absolute;
   inset: 0;
-  opacity: 0.35;
+  opacity: 0.65;
   background-image:
     linear-gradient(rgba(0, 230, 118, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 230, 118, 0.03) 1px, transparent 1px);
