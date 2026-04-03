@@ -153,7 +153,8 @@ function handleReset () {
   min-height: 100%;
   min-height: min(100vh, 100dvh);
   background: var(--bg-base);
-  overflow-x: hidden;
+  /* `hidden` breaks `position: sticky` for the report sidebar; `clip` clips overflow without a scrollport */
+  overflow-x: clip;
 }
 
 /* Ambient layers — same language as home splash, calmer for a task screen */

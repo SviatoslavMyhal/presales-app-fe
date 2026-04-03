@@ -48,8 +48,12 @@ const emit = defineEmits<{
   width: 240px;
   flex-shrink: 0;
   position: sticky;
-  top: 72px;
+  /* Align with fixed report header — inherited from `.report-page` on live & saved */
+  top: calc(var(--report-header-gap, 72px) + var(--space-2));
   align-self: flex-start;
+  max-height: calc(100vh - var(--report-header-gap, 72px) - var(--space-6));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .report-nav {
