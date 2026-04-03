@@ -9,7 +9,6 @@
   max-width: 100%;
   min-height: 56px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   row-gap: var(--space-2);
