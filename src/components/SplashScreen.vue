@@ -166,6 +166,12 @@ const particles = [
       >
         Prepare smarter. Close faster.
       </p>
+      <p
+        class="splash-lede"
+        :class="{ 'is-in': entered }"
+      >
+        Paste a client brief — four agents return discovery angles, risks, positioning, and call strategy in one report.
+      </p>
       <div
         class="cta-stack"
         :class="{ 'is-in': entered }"
@@ -413,7 +419,7 @@ const particles = [
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  margin: 0 0 var(--space-8);
+  margin: 0 0 var(--space-3);
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -422,6 +428,27 @@ const particles = [
 }
 
 .tagline.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.splash-lede {
+  max-width: 26rem;
+  margin: 0 auto var(--space-8);
+  padding: 0 var(--space-2);
+  font-size: 0.8125rem;
+  line-height: 1.65;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  text-align: center;
+  transform: translateY(12px);
+  transition:
+    opacity var(--transition-slow) 380ms,
+    transform var(--transition-slow) 380ms;
+}
+
+.splash-lede.is-in {
   opacity: 1;
   transform: translateY(0);
 }
