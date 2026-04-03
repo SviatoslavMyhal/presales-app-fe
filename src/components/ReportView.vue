@@ -6,6 +6,7 @@ import ReportViewMobileDrawer from '@/components/report/ReportViewMobileDrawer.v
 import ReportViewSidebar from '@/components/report/ReportViewSidebar.vue'
 import { reportViewNavItems } from '@/config/reportViewNav'
 import { useReportView, type ReportViewProps } from '@/composables/useReportView'
+import { computed } from 'vue'
 
 const props = withDefaults(
   defineProps<ReportViewProps>(),
@@ -18,7 +19,13 @@ const emit = defineEmits<{
   requestDelete: []
 }>()
 
-const navItems = reportViewNavItems
+/** Hide “Brief” nav when there is no job text to anchor. */
+const navItems = computed(() => {
+  if (props.jobPost?.trim()) {
+    return reportViewNavItems
+  }
+  return reportViewNavItems.filter((item) => item.id !== 'context')
+})
 
 const {
   saveTitle,
@@ -81,6 +88,8 @@ const {
         :report="report"
         :intelligence="intelligence"
         :default-strategy="defaultStrategy"
+        :job-post="jobPost"
+        :variant="variant"
       />
     </div>
 

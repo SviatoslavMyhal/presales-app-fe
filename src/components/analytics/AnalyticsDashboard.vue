@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
 import { useAnalyticsSummary } from '@/composables/useAnalyticsSummary'
+import { downloadAnalyticsRisksClientCsv } from '@/utils/analyticsCsvExport'
 
 withDefaults(
   defineProps<{
@@ -28,6 +29,20 @@ const {
   shortDate,
   fmt1,
 } = useAnalyticsSummary()
+
+function handleExportCsv () {
+  const d = data.value
+  downloadAnalyticsRisksClientCsv(
+    riskRows.value.map((r) => ({ key: r.key, label: r.label, count: r.count })),
+    clientTypeSegments.value.map((s) => ({
+      key: s.key,
+      label: s.label,
+      count: s.count,
+      pct: s.pct,
+    })),
+    d ? { totalReports: d.summary.total_reports } : undefined,
+  )
+}
 </script>
 
 <template>
@@ -69,32 +84,46 @@ const {
     />
 
     <template v-else-if="data">
-      <div class="analytics__kpi-row">
-        <article class="analytics-kpi">
-          <p class="analytics-kpi__label">
-            Total reports
-          </p>
-          <p class="analytics-kpi__value">
-            {{ data.summary.total_reports }}
-          </p>
-        </article>
-        <article class="analytics-kpi">
-          <p class="analytics-kpi__label">
-            Avg opportunity score
-          </p>
-          <p class="analytics-kpi__value">
-            {{ fmt1(data.summary.avg_opportunity_score) }}
-          </p>
-        </article>
-        <article class="analytics-kpi">
-          <p class="analytics-kpi__label">
-            Avg confidence
-          </p>
-          <p class="analytics-kpi__value">
-            {{ fmt1(data.summary.avg_confidence) }}
-            <span class="analytics-kpi__suffix">/ 10</span>
-          </p>
-        </article>
+      <div class="analytics__kpi-toolbar">
+        <div class="analytics__kpi-row">
+          <article class="analytics-kpi">
+            <p class="analytics-kpi__label">
+              Total reports
+            </p>
+            <p class="analytics-kpi__value">
+              {{ data.summary.total_reports }}
+            </p>
+          </article>
+          <article class="analytics-kpi">
+            <p class="analytics-kpi__label">
+              Avg opportunity score
+            </p>
+            <p class="analytics-kpi__value">
+              {{ fmt1(data.summary.avg_opportunity_score) }}
+            </p>
+          </article>
+          <article class="analytics-kpi">
+            <p class="analytics-kpi__label">
+              Avg confidence
+            </p>
+            <p class="analytics-kpi__value">
+              {{ fmt1(data.summary.avg_confidence) }}
+              <span class="analytics-kpi__suffix">/ 10</span>
+            </p>
+          </article>
+        </div>
+        <div
+          v-if="!isEmpty"
+          class="analytics__kpi-export"
+        >
+          <button
+            type="button"
+            class="analytics-export-btn"
+            @click="handleExportCsv"
+          >
+            Export CSV
+          </button>
+        </div>
       </div>
 
       <div

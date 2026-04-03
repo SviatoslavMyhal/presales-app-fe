@@ -33,7 +33,14 @@ export function useReportDetail () {
     return extractStoredIntelligence(report.value?.result)
   })
 
-  const analyzeContext = computed(() => extractStoredInputFields(report.value?.result))
+  const analyzeContext = computed(() => {
+    const fromResult = extractStoredInputFields(report.value?.result)
+    const top = report.value?.job_post
+    if (typeof top === 'string' && top.trim()) {
+      return { ...fromResult, jobPost: top.trim() }
+    }
+    return fromResult
+  })
 
   async function load () {
     const id = route.params.id as string

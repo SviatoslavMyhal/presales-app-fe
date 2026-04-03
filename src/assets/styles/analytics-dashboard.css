@@ -58,6 +58,55 @@
   background: rgba(0, 230, 118, 0.04);
 }
 
+.analytics__kpi-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.analytics__kpi-row {
+  flex: 1 1 min(100%, 520px);
+  min-width: 0;
+}
+
+.analytics__kpi-export {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.analytics-export-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--accent-primary);
+  background: rgba(0, 230, 118, 0.08);
+  border: 1px solid rgba(0, 230, 118, 0.28);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.analytics-export-btn:hover {
+  background: rgba(0, 230, 118, 0.14);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+.analytics-export-btn:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
 .analytics__empty--after-kpi {
   margin-top: calc(-1 * var(--space-2));
   margin-bottom: var(--space-5);
@@ -84,7 +133,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: var(--space-4);
-  margin-bottom: var(--space-6);
 }
 
 .analytics-kpi {

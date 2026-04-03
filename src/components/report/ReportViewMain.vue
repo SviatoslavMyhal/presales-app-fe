@@ -1,21 +1,34 @@
 <script setup lang="ts">
+import ReportSourceBrief from '@/components/report/ReportSourceBrief.vue'
 import type { IntelligenceResponse, SynthesisReport } from '@/types/presales'
 
-defineProps<{
-  report: SynthesisReport
-  intelligence?: IntelligenceResponse | null
-  defaultStrategy: {
-    primary_goal: string
-    focus_areas: string[]
-    questions_to_lead_with: { question: string; reason: string }[]
-    tone: string
-    desired_outcome: string
-  }
-}>()
+withDefaults(
+  defineProps<{
+    report: SynthesisReport
+    intelligence?: IntelligenceResponse | null
+    defaultStrategy: {
+      primary_goal: string
+      focus_areas: string[]
+      questions_to_lead_with: { question: string; reason: string }[]
+      tone: string
+      desired_outcome: string
+    }
+    /** Project / job description — shown as the first section when present. */
+    jobPost?: string
+    variant?: 'live' | 'saved'
+  }>(),
+  { variant: 'live' },
+)
 </script>
 
 <template>
   <main class="report-main">
+    <ReportSourceBrief
+      v-if="jobPost?.trim()"
+      :text="jobPost.trim()"
+      :variant="variant"
+    />
+
     <section
       id="intelligence"
       class="report-section"

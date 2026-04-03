@@ -1,0 +1,109 @@
+/* Original job / project brief — sits above Intelligence */
+
+.report-section--brief {
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid rgba(0, 230, 118, 0.45);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  scroll-margin-top: 80px;
+  background: linear-gradient(
+    125deg,
+    rgba(0, 230, 118, 0.06) 0%,
+    var(--bg-surface) 42%,
+    var(--bg-surface) 100%
+  );
+}
+
+.report-section--brief .section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(0, 230, 118, 0.04);
+}
+
+.source-brief__title-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.source-brief__kicker {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-muted);
+}
+
+.source-brief__title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.source-brief__badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 230, 118, 0.28);
+  color: var(--accent-primary);
+  background: rgba(0, 230, 118, 0.08);
+}
+
+/* Scroll area: padding keeps text + scrollbar off the outer border */
+.source-brief__body {
+  box-sizing: border-box;
+  max-height: min(55vh, 420px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+  padding: var(--space-6);
+}
+
+.source-brief__inner {
+  box-sizing: border-box;
+  min-width: 0;
+  padding-right: var(--space-2);
+}
+
+.source-brief__text {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 1023px) {
+  .report-section--brief .section-header {
+    padding: var(--space-4) var(--space-5);
+  }
+
+  .source-brief__body {
+    max-height: min(50vh, 360px);
+    padding: var(--space-5);
+  }
+}
+
+@media print {
+  .source-brief__body {
+    max-height: none;
+    overflow: visible;
+    padding: var(--space-6);
+  }
+}

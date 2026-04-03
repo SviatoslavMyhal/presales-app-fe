@@ -38,6 +38,7 @@ declare global {
   const defineAsyncComponent: typeof import('vue').defineAsyncComponent
   const defineComponent: typeof import('vue').defineComponent
   const defineStore: typeof import('pinia').defineStore
+  const downloadAnalyticsRisksClientCsv: typeof import('../../src/utils/analyticsCsvExport').downloadAnalyticsRisksClientCsv
   const downloadTextFile: typeof import('../../src/utils/exportReport').downloadTextFile
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
@@ -376,6 +377,9 @@ declare global {
   export type { StepConfig, StepRule } from '../../src/composables/useStepForm'
   import('../../src/composables/useStepForm')
   // @ts-ignore
+  export type { RiskRowForCsv, ClientSegmentForCsv, AnalyticsCsvExportOptions } from '../../src/utils/analyticsCsvExport'
+  import('../../src/utils/analyticsCsvExport')
+  // @ts-ignore
   export type { StoredInputFields } from '../../src/utils/storedReport'
   import('../../src/utils/storedReport')
   // @ts-ignore
@@ -420,6 +424,7 @@ declare module 'vue' {
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
     readonly defineStore: UnwrapRef<typeof import('pinia')['defineStore']>
+    readonly downloadAnalyticsRisksClientCsv: UnwrapRef<typeof import('../../src/utils/analyticsCsvExport')['downloadAnalyticsRisksClientCsv']>
     readonly downloadTextFile: UnwrapRef<typeof import('../../src/utils/exportReport')['downloadTextFile']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>

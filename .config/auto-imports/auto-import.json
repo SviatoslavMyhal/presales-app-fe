@@ -1,6 +1,8 @@
 {
   "globals": {
     "$defs": "readonly",
+    "AnalyticsCsvExportOptions": "readonly",
+    "ClientSegmentForCsv": "readonly",
     "Component": "readonly",
     "ComponentPublicInstance": "readonly",
     "ComputedRef": "readonly",
@@ -15,6 +17,7 @@
     "PropType": "readonly",
     "Ref": "readonly",
     "ReportViewProps": "readonly",
+    "RiskRowForCsv": "readonly",
     "ShallowRef": "readonly",
     "Slot": "readonly",
     "Slots": "readonly",
@@ -56,6 +59,7 @@
     "defineAsyncComponent": "readonly",
     "defineComponent": "readonly",
     "defineStore": "readonly",
+    "downloadAnalyticsRisksClientCsv": "readonly",
     "downloadTextFile": "readonly",
     "eagerComputed": "readonly",
     "effectScope": "readonly",

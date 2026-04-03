@@ -69,6 +69,8 @@ export interface ReportDetail {
   title: string | null
   created_at: string
   updated_at: string
+  /** Original project / job description when returned from GET report (optional). */
+  job_post?: string | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result: Record<string, unknown>
 }
