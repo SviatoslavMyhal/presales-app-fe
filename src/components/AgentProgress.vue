@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AnalysisHints from '@/components/AnalysisHints.vue'
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
 import type { PresalesRequest, PresalesResponse, SynthesisReport } from '@/types/presales'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -82,11 +83,12 @@ onMounted(() => {
     finishPipeline()
     return
   }
+
   const seq: [number, AgentStatus[]][] = [
     [0, ['active', 'idle', 'idle', 'idle']],
-    [2500, ['complete', 'active', 'idle', 'idle']],
-    [5000, ['complete', 'complete', 'active', 'idle']],
-    [7500, ['complete', 'complete', 'complete', 'active']]
+    [4000, ['complete', 'active', 'idle', 'idle']],
+    [8000, ['complete', 'complete', 'active', 'idle']],
+    [12000, ['complete', 'complete', 'complete', 'active']]
   ]
   for (const [delay, next] of seq) {
     timers.push(
@@ -106,7 +108,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="agent-progress">
+  <div
+    class="agent-progress"
+    :class="{ 'agent-progress--awaiting': !result }"
+  >
+    <AnalysisHints v-if="!result" />
+
     <div
       class="rings"
       aria-hidden="true"
@@ -189,8 +196,19 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   padding: var(--space-8);
+  padding-top: calc(var(--space-8) + env(safe-area-inset-top, 0px));
   background: var(--bg-base);
   overflow: hidden;
+}
+
+.agent-progress--awaiting {
+  padding-top: calc(4.25rem + env(safe-area-inset-top, 0px));
+}
+
+@media (min-width: 640px) {
+  .agent-progress--awaiting {
+    padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
 }
 
 .rings {

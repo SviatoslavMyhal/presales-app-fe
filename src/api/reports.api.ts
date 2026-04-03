@@ -10,8 +10,8 @@ export async function reportsCreate (body: CreateReportBody): Promise<ReportDeta
   return data as ReportDetail
 }
 
-export async function reportsList (params: { limit?: number, offset?: number }): Promise<ReportsListResponse> {
-  const data = await backendApi.get('reports', { params })
+export async function reportsList (): Promise<ReportsListResponse> {
+  const data = await backendApi.get('reports')
   return data as ReportsListResponse
 }
 

@@ -58,8 +58,9 @@ export interface ReportListItem {
 
 export interface ReportsListResponse {
   reports: ReportListItem[]
-  limit: number
-  offset: number
+  /** Present when the API paginates; omitted when returning the full list. */
+  limit?: number
+  offset?: number
 }
 
 export interface ReportDetail {

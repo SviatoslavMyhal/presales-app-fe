@@ -13,8 +13,6 @@ import {
 import { routeNames } from '@/router/route-names-registry'
 import { ElMessage } from 'element-plus'
 import type { Component } from 'vue'
-import { computed, nextTick, ref, shallowRef } from 'vue'
-import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -290,7 +288,6 @@ function handleReset () {
 
 .analyze-view-root :deep(.report-page) {
   background: transparent;
-  padding-bottom: var(--space-8);
 }
 
 /* Step form: glass card + depth */

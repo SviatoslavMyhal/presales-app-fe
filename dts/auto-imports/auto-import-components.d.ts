@@ -14,6 +14,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AgentDebugPanel: typeof import('./../../src/components/AgentDebugPanel.vue')['default']
     AgentProgress: typeof import('./../../src/components/AgentProgress.vue')['default']
+    AnalysisHints: typeof import('./../../src/components/AnalysisHints.vue')['default']
     AnalysisResultPanel: typeof import('./../../src/components/presales/AnalysisResultPanel.vue')['default']
     AnalyticsDashboard: typeof import('./../../src/components/analytics/AnalyticsDashboard.vue')['default']
     AnalyticsView: typeof import('./../../src/views/reports/AnalyticsView.vue')['default']
@@ -73,6 +74,7 @@ declare module 'vue' {
 declare global {
   const AgentDebugPanel: typeof import('./../../src/components/AgentDebugPanel.vue')['default']
   const AgentProgress: typeof import('./../../src/components/AgentProgress.vue')['default']
+  const AnalysisHints: typeof import('./../../src/components/AnalysisHints.vue')['default']
   const AnalysisResultPanel: typeof import('./../../src/components/presales/AnalysisResultPanel.vue')['default']
   const AnalyticsDashboard: typeof import('./../../src/components/analytics/AnalyticsDashboard.vue')['default']
   const AnalyticsView: typeof import('./../../src/views/reports/AnalyticsView.vue')['default']

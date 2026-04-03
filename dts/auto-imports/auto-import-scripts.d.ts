@@ -7,7 +7,6 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue').EffectScope
-  const REPORTS_LIST_PAGE_SIZE: typeof import('../../src/composables/useReportsList').REPORTS_LIST_PAGE_SIZE
   const VueGlobalPropertiesPlugin: typeof import('../../src/plugins/vue-global-properties.plugin').VueGlobalPropertiesPlugin
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const apiClient: typeof import('../../src/features/platform/api/client').apiClient
@@ -390,7 +389,6 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly REPORTS_LIST_PAGE_SIZE: UnwrapRef<typeof import('../../src/composables/useReportsList')['REPORTS_LIST_PAGE_SIZE']>
     readonly VueGlobalPropertiesPlugin: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['VueGlobalPropertiesPlugin']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly apiClient: UnwrapRef<typeof import('../../src/features/platform/api/client')['apiClient']>

@@ -285,6 +285,14 @@
   height: 12px;
 }
 
+.proposal-edit-hint {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
 .proposal-card {
   background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
@@ -327,6 +335,70 @@
   font-weight: 500;
   color: var(--text-primary);
   line-height: 1.4;
+}
+
+.proposal-subject--editable {
+  gap: var(--space-2);
+}
+
+.proposal-subject-input {
+  width: 100%;
+}
+
+.proposal-field-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.proposal-inline-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.proposal-textarea {
+  width: 100%;
+  min-height: 4rem;
+  resize: vertical;
+  background: var(--bg-base);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.proposal-textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.1);
+}
+
+.proposal-textarea--italic {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.proposal-section-title--input {
+  display: block;
+  margin-bottom: 0;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.proposal-section-title-input {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text-primary);
 }
 
 .proposal-body-text {

@@ -23,7 +23,7 @@
   font-family: inherit;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .mobile-nav-trigger {
     display: inline-flex;
   }
@@ -218,19 +218,6 @@
   flex-direction: column;
   gap: var(--space-3);
   margin-bottom: var(--space-5);
-}
-
-.mobile-sheet__login-hint {
-  display: block;
-  margin-bottom: var(--space-5);
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-primary);
-  text-decoration: none;
-}
-
-.mobile-sheet__login-hint:hover {
-  text-decoration: underline;
 }
 
 .mobile-sheet__btn {

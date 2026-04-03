@@ -21,6 +21,13 @@ function buildPlainText(p: ProposalData): string {
   return lines.join('\n')
 }
 
+function cloneProposalData(data: ProposalData): ProposalData {
+  if (typeof structuredClone === 'function') {
+    return structuredClone(data)
+  }
+  return JSON.parse(JSON.stringify(data)) as ProposalData
+}
+
 export interface UseProposalGeneratorParams {
   visible: MaybeRefOrGetter<boolean>
   report: MaybeRefOrGetter<SynthesisReport>
@@ -37,6 +44,8 @@ export function useProposalGenerator(params: UseProposalGeneratorParams) {
   const loading = ref(false)
   const error = ref<string | null>(null)
   const proposal = ref<ProposalData | null>(null)
+  /** Editable copy in the result phase; `handleCopy` uses this, not the raw API snapshot. */
+  const proposalDraft = ref<ProposalData | null>(null)
   const copied = ref(false)
   const phase = ref<'form' | 'generating' | 'result'>('form')
 
@@ -48,6 +57,8 @@ export function useProposalGenerator(params: UseProposalGeneratorParams) {
       if (val) {
         phase.value = 'form'
         error.value = null
+        proposal.value = null
+        proposalDraft.value = null
       }
     },
   )
@@ -85,6 +96,7 @@ export function useProposalGenerator(params: UseProposalGeneratorParams) {
       }
 
       proposal.value = result.data
+      proposalDraft.value = cloneProposalData(result.data)
       phase.value = 'result'
     }
     catch (e: unknown) {
@@ -99,14 +111,16 @@ export function useProposalGenerator(params: UseProposalGeneratorParams) {
 
   function handleRegenerate(): void {
     proposal.value = null
+    proposalDraft.value = null
     phase.value = 'form'
   }
 
   async function handleCopy(): Promise<void> {
-    if (!proposal.value) {
+    const draft = proposalDraft.value
+    if (!draft) {
       return
     }
-    const text = buildPlainText(proposal.value)
+    const text = buildPlainText(draft)
     await navigator.clipboard.writeText(text)
     copied.value = true
     if (copyResetTimer !== undefined) {
@@ -123,6 +137,7 @@ export function useProposalGenerator(params: UseProposalGeneratorParams) {
     companyName,
     error,
     proposal,
+    proposalDraft,
     copied,
     phase,
     canSubmit,

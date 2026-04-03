@@ -5,18 +5,13 @@ import { routeNames } from '@/router/route-names-registry'
 import { useReportsList } from '@/composables/useReportsList'
 
 const {
-  limit,
-  offset,
   reports,
   loading,
   error,
   deletingId,
   goDetail,
   onDeleteReport,
-  nextPage,
-  prevPage,
   formatDate,
-  pageLabel,
 } = useReportsList()
 </script>
 
@@ -98,33 +93,9 @@ const {
           No saved reports yet
         </p>
         <p class="reports-empty__hint">
-          Run an analysis from the home flow, then use <strong>Save</strong> on the results screen while signed in.
+          Run <strong>New analysis</strong>, then save the report from the results screen when you want it in your workspace.
         </p>
       </div>
-
-      <nav
-        v-if="reports.length"
-        class="reports-pager"
-        aria-label="Pagination"
-      >
-        <button
-          type="button"
-          class="pager-btn"
-          :disabled="offset === 0"
-          @click="prevPage"
-        >
-          Previous
-        </button>
-        <span class="pager-meta">{{ pageLabel }}</span>
-        <button
-          type="button"
-          class="pager-btn"
-          :disabled="reports.length < limit"
-          @click="nextPage"
-        >
-          Next
-        </button>
-      </nav>
     </div>
   </div>
 </template>
@@ -257,65 +228,5 @@ const {
 .reports-empty__hint strong {
   color: var(--accent-primary);
   font-weight: 600;
-}
-
-.reports-pager {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: clamp(2.5rem, 6vw, 4rem);
-  padding: 20px 24px;
-  border-radius: 12px;
-  background: rgba(12, 16, 14, 0.65);
-  border: 1px solid rgba(0, 230, 118, 0.14);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-}
-
-.pager-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 128px;
-  height: 44px;
-  padding: 0 24px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  color: var(--text-primary);
-  background: rgba(0, 230, 118, 0.1);
-  border: 1px solid rgba(0, 230, 118, 0.38);
-  border-radius: 8px;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast),
-    color var(--transition-fast),
-    box-shadow var(--transition-fast);
-}
-
-.pager-btn:hover:not(:disabled) {
-  color: var(--accent-primary);
-  background: rgba(0, 230, 118, 0.16);
-  border-color: rgba(0, 230, 118, 0.55);
-  box-shadow: 0 0 28px rgba(0, 230, 118, 0.18);
-}
-
-.pager-btn:disabled {
-  opacity: 0.38;
-  cursor: not-allowed;
-  color: var(--text-muted);
-}
-
-.pager-meta {
-  min-width: 5.5rem;
-  text-align: center;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  color: var(--text-secondary);
 }
 </style>

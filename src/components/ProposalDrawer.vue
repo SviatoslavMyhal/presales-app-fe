@@ -25,6 +25,7 @@ const {
   companyName,
   error,
   proposal,
+  proposalDraft,
   copied,
   phase,
   canSubmit,
@@ -191,10 +192,13 @@ function handleBackdropClick() {
           </div>
 
           <div
-            v-else-if="phase === 'result' && proposal"
+            v-else-if="phase === 'result' && proposal && proposalDraft"
             key="result"
             class="drawer-body drawer-result"
           >
+            <p class="proposal-edit-hint">
+              Edit the draft below, then copy — clipboard uses your changes.
+            </p>
             <div class="proposal-meta-bar">
               <span class="meta-pill">
                 <svg
@@ -232,35 +236,85 @@ function handleBackdropClick() {
             </div>
 
             <div class="proposal-card">
-              <div class="proposal-subject">
-                <span class="proposal-subject-label">Subject</span>
-                <span class="proposal-subject-text">{{ proposal.subject }}</span>
+              <div class="proposal-subject proposal-subject--editable">
+                <label
+                  class="proposal-subject-label"
+                  for="proposal-subject-input"
+                >Subject</label>
+                <input
+                  id="proposal-subject-input"
+                  v-model="proposalDraft.subject"
+                  class="proposal-subject-input drawer-input"
+                  type="text"
+                  autocomplete="off"
+                >
               </div>
 
               <div class="proposal-body-text">
-                <p class="proposal-greeting">
-                  {{ proposal.greeting }}
-                </p>
-
-                <div
-                  v-for="(section, si) in proposal.sections"
-                  :key="si + '-' + section.title"
-                  class="proposal-section"
-                >
-                  <h4 class="proposal-section-title">
-                    {{ section.title }}
-                  </h4>
-                  <p class="proposal-section-content">
-                    {{ section.content }}
-                  </p>
+                <div class="proposal-field-block">
+                  <label
+                    class="proposal-inline-label"
+                    for="proposal-greeting"
+                  >Greeting</label>
+                  <textarea
+                    id="proposal-greeting"
+                    v-model="proposalDraft.greeting"
+                    class="proposal-textarea"
+                    rows="3"
+                  />
                 </div>
 
-                <p class="proposal-closing">
-                  {{ proposal.closing }}
-                </p>
-                <p class="proposal-signature">
-                  {{ proposal.signature }}
-                </p>
+                <div
+                  v-for="(section, si) in proposalDraft.sections"
+                  :key="'sec-' + si"
+                  class="proposal-section proposal-section--editable"
+                >
+                  <label
+                    class="proposal-section-title proposal-section-title--input"
+                    :for="'proposal-section-title-' + si"
+                  >Section heading</label>
+                  <input
+                    :id="'proposal-section-title-' + si"
+                    v-model="proposalDraft.sections[si]!.title"
+                    class="proposal-section-title-input drawer-input"
+                    type="text"
+                  >
+                  <label
+                    class="proposal-inline-label"
+                    :for="'proposal-section-body-' + si"
+                  >Body</label>
+                  <textarea
+                    :id="'proposal-section-body-' + si"
+                    v-model="proposalDraft.sections[si]!.content"
+                    class="proposal-textarea"
+                    rows="5"
+                  />
+                </div>
+
+                <div class="proposal-field-block">
+                  <label
+                    class="proposal-inline-label"
+                    for="proposal-closing"
+                  >Closing</label>
+                  <textarea
+                    id="proposal-closing"
+                    v-model="proposalDraft.closing"
+                    class="proposal-textarea proposal-textarea--italic"
+                    rows="3"
+                  />
+                </div>
+                <div class="proposal-field-block">
+                  <label
+                    class="proposal-inline-label"
+                    for="proposal-signature"
+                  >Signature</label>
+                  <textarea
+                    id="proposal-signature"
+                    v-model="proposalDraft.signature"
+                    class="proposal-textarea"
+                    rows="3"
+                  />
+                </div>
               </div>
             </div>
 

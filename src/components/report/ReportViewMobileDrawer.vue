@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
-import { routeNames } from '@/router/route-names-registry'
 import type { PresalesRequest } from '@/types/presales'
 
 const drawerOpen = defineModel<boolean>('drawerOpen', { required: true })
@@ -10,7 +9,6 @@ defineProps<{
   showMobileNav: boolean
   navItems: readonly { id: string; label: string; icon: string }[]
   showSaveControls: boolean
-  showLoginToSaveHint: boolean
   saving: boolean
   variant: 'live' | 'saved'
   analyzePayload?: PresalesRequest | null
@@ -190,15 +188,6 @@ function onScroll (id: string) {
             </button>
           </div>
         </div>
-
-        <RouterLink
-          v-else-if="showLoginToSaveHint"
-          :to="{ name: routeNames.login, query: { redirect: '/' } }"
-          class="mobile-sheet__login-hint"
-          @click="emit('close')"
-        >
-          Log in to save reports
-        </RouterLink>
 
         <div class="mobile-sheet__action-group">
           <span class="mobile-sheet__label">Export</span>

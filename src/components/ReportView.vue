@@ -24,7 +24,6 @@ const {
   saveTitle,
   saving,
   showSaveControls,
-  showLoginToSaveHint,
   saveToWorkspace,
   activeSection,
   proposalDrawerOpen,
@@ -57,7 +56,6 @@ const {
       :variant="variant"
       :analyze-payload="analyzePayload"
       :show-save-controls="showSaveControls"
-      :show-login-to-save-hint="showLoginToSaveHint"
       :saving="saving"
       :can-show-proposal-cta="canShowProposalCta"
       :saved-report-id="savedReportId"
@@ -92,7 +90,6 @@ const {
       :show-mobile-nav="showMobileNav"
       :nav-items="navItems"
       :show-save-controls="showSaveControls"
-      :show-login-to-save-hint="showLoginToSaveHint"
       :saving="saving"
       :variant="variant"
       :analyze-payload="analyzePayload"
@@ -126,22 +123,31 @@ const {
 </template>
 
 <style scoped>
+/* Offset for position:fixed report header (report-view-header.css) */
 .report-page {
+  --report-header-gap: calc(60px + env(safe-area-inset-top, 0px));
   min-height: 100vh;
   background: var(--bg-base);
+  padding-top: var(--report-header-gap);
   padding-bottom: var(--space-12);
 }
 
-.report-layout {
-  display: flex;
-  gap: var(--space-8);
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--space-6);
+/* Desktop toolbar wraps to two rows between lg and xl */
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .report-page {
+    --report-header-gap: calc(104px + env(safe-area-inset-top, 0px));
+  }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1201px) {
   .report-page {
+    --report-header-gap: calc(60px + env(safe-area-inset-top, 0px));
+  }
+}
+
+@media (max-width: 1023px) {
+  .report-page {
+    --report-header-gap: calc(56px + env(safe-area-inset-top, 0px));
     padding-bottom: calc(var(--space-16) + var(--space-4) + env(safe-area-inset-bottom, 0px));
   }
 
@@ -150,6 +156,20 @@ const {
     max-width: 100%;
     width: 100%;
   }
+}
+
+@media print {
+  .report-page {
+    padding-top: 0;
+  }
+}
+
+.report-layout {
+  display: flex;
+  gap: var(--space-8);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-6);
 }
 
 </style>

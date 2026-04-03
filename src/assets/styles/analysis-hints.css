@@ -1,0 +1,195 @@
+.analysis-hint {
+  position: fixed;
+  top: max(var(--space-3), env(safe-area-inset-top, 0px));
+  right: max(var(--space-3), env(safe-area-inset-right, 0px));
+  left: auto;
+  z-index: 20;
+  width: min(88vw, 20rem);
+  margin: 0;
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+  text-align: left;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(0, 230, 118, 0.2);
+  background: linear-gradient(
+    200deg,
+    rgba(8, 12, 10, 0.94) 0%,
+    rgba(18, 26, 22, 0.93) 48%,
+    rgba(12, 18, 15, 0.96) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(0, 230, 118, 0.06) inset,
+    -6px 10px 32px rgba(0, 0, 0, 0.42),
+    0 0 36px rgba(0, 230, 118, 0.09);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  animation: analysis-hint-glow 3.2s ease-in-out infinite alternate;
+}
+
+.analysis-hint::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 230, 118, 0.45) 0%,
+    rgba(0, 230, 118, 0.12) 50%,
+    rgba(129, 199, 255, 0.25) 100%
+  );
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.analysis-hint__glow {
+  pointer-events: none;
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 100% 90% at 100% 20%,
+    rgba(0, 230, 118, 0.1) 0%,
+    transparent 55%
+  );
+  opacity: 0.9;
+}
+
+.analysis-hint__row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.analysis-hint__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 0.25rem;
+}
+
+.analysis-hint__icon-wrap {
+  flex-shrink: 0;
+  width: 32px;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 230, 118, 0.22);
+  background: rgba(0, 230, 118, 0.07);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+}
+
+.analysis-hint__icon-wrap--tip {
+  color: rgba(0, 230, 118, 0.95);
+}
+
+.analysis-hint__icon-wrap--fact {
+  color: rgba(165, 210, 255, 0.95);
+  border-color: rgba(129, 199, 255, 0.28);
+  background: rgba(129, 199, 255, 0.08);
+}
+
+.analysis-hint__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.analysis-hint__kicker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.35rem;
+  max-width: 100%;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.analysis-hint__kicker--fact {
+  opacity: 0.95;
+}
+
+.analysis-hint__emoji {
+  font-size: 0.7rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.analysis-hint__body {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  text-align: left;
+  text-wrap: balance;
+}
+
+@keyframes analysis-hint-glow {
+  from {
+    box-shadow:
+      0 0 0 1px rgba(0, 230, 118, 0.06) inset,
+      -6px 12px 36px rgba(0, 0, 0, 0.45),
+      0 0 40px rgba(0, 230, 118, 0.08);
+  }
+  to {
+    box-shadow:
+      0 0 0 1px rgba(0, 230, 118, 0.1) inset,
+      -8px 16px 44px rgba(0, 0, 0, 0.52),
+      0 0 56px rgba(0, 230, 118, 0.14);
+  }
+}
+
+.analysis-hint-enter-active,
+.analysis-hint-leave-active {
+  transition:
+    opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.analysis-hint-enter-from,
+.analysis-hint-leave-to {
+  opacity: 0;
+  transform: translateX(10px) translateY(-4px);
+}
+
+.analysis-hint-enter-to,
+.analysis-hint-leave-from {
+  transform: translateX(0) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .analysis-hint {
+    animation: none;
+  }
+
+  .analysis-hint-enter-active,
+  .analysis-hint-leave-active {
+    transition-duration: 0.01ms;
+  }
+
+  .analysis-hint-enter-from,
+  .analysis-hint-leave-to {
+    transform: none;
+  }
+}

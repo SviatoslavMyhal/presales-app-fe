@@ -39,10 +39,6 @@ export function useReportView (props: ReportViewProps) {
 
   const showSaveControls = computed(() => canSave.value && !reportSaved.value)
 
-  const showLoginToSaveHint = computed(
-    () => props.variant === 'live' && Boolean(props.analyzePayload) && !auth.isAuthenticated,
-  )
-
   watch(
     () => props.report,
     () => {
@@ -134,7 +130,8 @@ export function useReportView (props: ReportViewProps) {
     }
     const w = window.innerWidth
     isDesktopNav.value = w >= 1024
-    showMobileNav.value = w <= 768
+    /** Align with Tailwind lg: compact header + bottom sheet below desktop sidebar width */
+    showMobileNav.value = w < 1024
   }
 
   function scrollToSection (id: string) {
@@ -229,7 +226,6 @@ export function useReportView (props: ReportViewProps) {
     saveTitle,
     saving,
     showSaveControls,
-    showLoginToSaveHint,
     saveToWorkspace,
     activeSection,
     proposalDrawerOpen,

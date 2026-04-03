@@ -13,7 +13,6 @@
     "MaybeRef": "readonly",
     "MaybeRefOrGetter": "readonly",
     "PropType": "readonly",
-    "REPORTS_LIST_PAGE_SIZE": "readonly",
     "Ref": "readonly",
     "ReportViewProps": "readonly",
     "ShallowRef": "readonly",

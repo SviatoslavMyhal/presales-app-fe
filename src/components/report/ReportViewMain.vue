@@ -274,7 +274,7 @@ defineProps<{
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .report-main {
     width: 100%;
     max-width: 100%;
