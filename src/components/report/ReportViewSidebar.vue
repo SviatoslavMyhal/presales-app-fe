@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  navItems: readonly { id: string; label: string; icon: string }[]
+  navItems: readonly { id: string, label: string, icon: string }[]
   activeSection: string
 }>()
 

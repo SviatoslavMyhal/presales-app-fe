@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-function onStart () {
+function onStart() {
   void router.push({ name: routeNames.analyze })
 }
 </script>

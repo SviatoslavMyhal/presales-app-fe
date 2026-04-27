@@ -5,7 +5,7 @@ import { routeNames } from '@/router/route-names-registry'
 import { useAuthStore } from '@/stores/auth.store'
 
 /** Supabase-style auth redirect: #access_token=...&refresh_token=...&type=signup|email */
-export async function handleAuthHashCallback (router: Router): Promise<boolean> {
+export async function handleAuthHashCallback(router: Router): Promise<boolean> {
   if (typeof window === 'undefined') {
     return false
   }
@@ -30,7 +30,7 @@ export async function handleAuthHashCallback (router: Router): Promise<boolean> 
   const auth = useAuthStore()
   auth.persistSession({
     access_token: accessToken,
-    refresh_token: params.get('refresh_token') ?? undefined
+    refresh_token: params.get('refresh_token') ?? undefined,
   })
 
   const cleanUrl = `${window.location.pathname}${window.location.search}`

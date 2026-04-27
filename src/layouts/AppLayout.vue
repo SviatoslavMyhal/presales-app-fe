@@ -13,7 +13,10 @@ const { showFloatingHome, goHome } = useAppFloatingHome()
       aria-label="Back to home"
       @click="goHome"
     >
-      <span class="floating-home__arrow" aria-hidden="true">←</span>
+      <span
+        class="floating-home__arrow"
+        aria-hidden="true"
+      >←</span>
       <span class="floating-home__brand">PreSales AI</span>
     </button>
     <main class="app-main">

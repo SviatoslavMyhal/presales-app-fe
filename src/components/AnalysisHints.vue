@@ -6,7 +6,7 @@ const HINT_ROTATE_MS = 8000
 
 let lastHintIndex = -1
 
-function pickRandomHintIndex (): number {
+function pickRandomHintIndex(): number {
   const n = ANALYSIS_HINTS.length
   if (n <= 1) {
     return 0
@@ -27,11 +27,11 @@ const currentHint = computed((): AnalysisHintEntry => {
   return ANALYSIS_HINTS[i] ?? ANALYSIS_HINTS[0]!
 })
 
-function hintEmoji (kind: AnalysisHintEntry['kind']): string {
+function hintEmoji(kind: AnalysisHintEntry['kind']): string {
   return kind === 'tip' ? '💡' : '✨'
 }
 
-function clearHintInterval () {
+function clearHintInterval() {
   if (hintIntervalId !== null) {
     clearInterval(hintIntervalId)
     hintIntervalId = null

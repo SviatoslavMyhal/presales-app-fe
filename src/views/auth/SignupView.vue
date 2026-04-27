@@ -17,7 +17,7 @@ const router = useRouter()
 const formRef = ref<FormInstance>()
 const form = reactive({
   email: '',
-  password: ''
+  password: '',
 })
 
 const loading = ref(false)
@@ -27,11 +27,12 @@ const checkEmailSent = ref(false)
 
 const rules: FormRules = authEmailPasswordRules
 
-async function onSubmit () {
+async function onSubmit() {
   error.value = null
   try {
     await formRef.value?.validate()
-  } catch {
+  }
+  catch {
     return
   }
   loading.value = true
@@ -39,12 +40,15 @@ async function onSubmit () {
     await auth.signup(form.email.trim(), form.password)
     if (auth.isAuthenticated) {
       router.replace({ name: routeNames.home })
-    } else {
+    }
+    else {
       checkEmailSent.value = true
     }
-  } catch (e) {
+  }
+  catch (e) {
     error.value = formatApiError(e)
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

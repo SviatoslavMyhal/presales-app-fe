@@ -2,7 +2,7 @@
  * Detects a completed HTTP 200 response where multi-agent presales pipeline failed
  * (e.g. invalid/insufficient job post). Backend may still return partial blocks (e.g. intelligence success).
  */
-export function isPresalesPipelineFailed (result: unknown): boolean {
+export function isPresalesPipelineFailed(result: unknown): boolean {
   if (!result || typeof result !== 'object') {
     return false
   }
@@ -19,7 +19,7 @@ export function isPresalesPipelineFailed (result: unknown): boolean {
 }
 
 /** User-visible message; validation-specific first, then synthesis / analyst errors. */
-export function getPresalesPipelineFailureMessage (result: unknown): string {
+export function getPresalesPipelineFailureMessage(result: unknown): string {
   const r = result as Record<string, unknown>
   const synthesis = r.synthesis as Record<string, unknown> | undefined
   const analyst = r.analyst as Record<string, unknown> | undefined

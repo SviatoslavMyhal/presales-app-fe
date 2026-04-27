@@ -11,7 +11,7 @@ import { fmt1, pct, shortDate } from '@/utils/analyticsFormat'
 import { formatLabel, humanizeKey } from '@/utils/formatLabel'
 import { computed, onMounted, ref } from 'vue'
 
-export function useAnalyticsSummary () {
+export function useAnalyticsSummary() {
   const loading = ref(true)
   const error = ref<string | null>(null)
   const data = ref<AnalyticsSummaryResponse | null>(null)
@@ -21,10 +21,12 @@ export function useAnalyticsSummary () {
     error.value = null
     try {
       data.value = await fetchAnalyticsSummary()
-    } catch (e) {
+    }
+    catch (e) {
       error.value = formatApiError(e)
       data.value = null
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   })
@@ -33,7 +35,7 @@ export function useAnalyticsSummary () {
     return (data.value?.summary.total_reports ?? 0) === 0
   })
 
-  function formatLabelRisk (key: string): string {
+  function formatLabelRisk(key: string): string {
     return formatLabel(key) || humanizeKey(key.replace(/_/g, ' '))
   }
 
@@ -49,7 +51,7 @@ export function useAnalyticsSummary () {
     if (!rows.length) {
       return 1
     }
-    return Math.max(1, ...rows.map((r) => r.count))
+    return Math.max(1, ...rows.map(r => r.count))
   })
 
   const oppTotal = computed(() => {
@@ -105,10 +107,10 @@ export function useAnalyticsSummary () {
 
   const timelineBars = computed(() => {
     const t = data.value?.timeline ?? []
-    const maxR = Math.max(1, ...t.map((x) => x.reports))
-    return t.map((row) => ({
+    const maxR = Math.max(1, ...t.map(x => x.reports))
+    return t.map(row => ({
       ...row,
-      barPct: (row.reports / maxR) * 100
+      barPct: (row.reports / maxR) * 100,
     }))
   })
 
@@ -117,7 +119,7 @@ export function useAnalyticsSummary () {
     if (t.length < 2) {
       return ''
     }
-    const maxS = Math.max(1e-6, ...t.map((x) => x.avg_score))
+    const maxS = Math.max(1e-6, ...t.map(x => x.avg_score))
     const w = 100
     const h = 22
     const padX = 1

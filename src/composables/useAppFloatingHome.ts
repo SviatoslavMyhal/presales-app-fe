@@ -2,20 +2,30 @@ import { routeNames } from '@/router/route-names-registry'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-export function useAppFloatingHome () {
+/** Routes that already include workspace chrome or full-screen report tools. */
+const hideFloatingHome = new Set<string>([
+  routeNames.home,
+  routeNames.analyze,
+  routeNames.today,
+  routeNames.pipeline,
+  routeNames.reportsAnalytics,
+  routeNames.opportunityDetail,
+])
+
+export function useAppFloatingHome() {
   const route = useRoute()
   const router = useRouter()
 
-  /** Analyze route embeds its own toolbar (StepForm back / ReportView header); floating control duplicates the wordmark. */
-  const showFloatingHome = computed(
-    () =>
-      route.name !== routeNames.home
-      && route.name !== routeNames.reportDetail
-      && route.name !== routeNames.analyze,
-  )
+  const showFloatingHome = computed(() => {
+    const n = route.name as string | undefined
+    if (!n) {
+      return true
+    }
+    return !hideFloatingHome.has(n)
+  })
 
-  function goHome () {
-    router.push({ name: routeNames.home })
+  function goHome() {
+    void router.push({ name: routeNames.home })
   }
 
   return { showFloatingHome, goHome }

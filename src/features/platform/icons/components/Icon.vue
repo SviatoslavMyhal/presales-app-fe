@@ -3,7 +3,7 @@ import { type Component } from 'vue'
 
 const icons = import.meta.glob<Component>(
   '@/features/platform/icons/assets/*.svg',
-  { import: 'default' }
+  { import: 'default' },
 )
 
 const props = defineProps<{

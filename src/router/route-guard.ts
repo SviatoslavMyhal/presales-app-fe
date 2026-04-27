@@ -6,14 +6,14 @@ import { useAuthStore } from '@/stores/auth.store'
 export const routeGuard = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
-  next: NavigationGuardNext
+  next: NavigationGuardNext,
 ) => {
   const auth = useAuthStore()
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     next({
       name: routeNames.login,
-      query: { redirect: to.fullPath }
+      query: { redirect: to.fullPath },
     })
     return
   }

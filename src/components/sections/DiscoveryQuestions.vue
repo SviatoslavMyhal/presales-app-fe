@@ -21,19 +21,19 @@ watch(
       return
     }
     if (
-      selectedIndex.value === null ||
-      selectedIndex.value >= list.length
+      selectedIndex.value === null
+      || selectedIndex.value >= list.length
     ) {
       selectedIndex.value = 0
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 const selected = computed(() => {
   if (
-    selectedIndex.value === null ||
-    !props.questions[selectedIndex.value]
+    selectedIndex.value === null
+    || !props.questions[selectedIndex.value]
   ) {
     return null
   }
@@ -72,7 +72,7 @@ function planetPosition(index: number, total: number) {
   const r = 36
   return {
     x: 50 + r * Math.cos(angle),
-    y: 50 + r * Math.sin(angle)
+    y: 50 + r * Math.sin(angle),
   }
 }
 </script>

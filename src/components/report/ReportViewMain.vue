@@ -9,27 +9,33 @@ withDefaults(
     defaultStrategy: {
       primary_goal: string
       focus_areas: string[]
-      questions_to_lead_with: { question: string; reason: string }[]
+      questions_to_lead_with: { question: string, reason: string }[]
       tone: string
       desired_outcome: string
     }
     /** Project / job description — shown as the first section when present. */
     jobPost?: string
     variant?: 'live' | 'saved'
+    /** On-call mode: fewer sections, larger rhythm. */
+    performMode?: boolean
   }>(),
-  { variant: 'live' },
+  { variant: 'live', performMode: false },
 )
 </script>
 
 <template>
-  <main class="report-main">
+  <main
+    class="report-main"
+    :class="{ 'report-main--perform': performMode }"
+  >
     <ReportSourceBrief
-      v-if="jobPost?.trim()"
+      v-if="jobPost?.trim() && !performMode"
       :text="jobPost.trim()"
       :variant="variant"
     />
 
     <section
+      v-if="!performMode"
       id="intelligence"
       class="report-section"
       data-section="intelligence"
@@ -78,6 +84,7 @@ withDefaults(
     </section>
 
     <section
+      v-if="!performMode"
       id="needs"
       class="report-section report-section--needs"
       data-section="needs"
@@ -132,6 +139,7 @@ withDefaults(
     </section>
 
     <section
+      v-if="!performMode"
       id="approach"
       class="report-section"
       data-section="approach"
@@ -271,6 +279,19 @@ withDefaults(
 
 .section-body--widgets {
   padding: var(--space-6) var(--space-8);
+}
+
+.report-main--perform {
+  gap: var(--space-5);
+}
+
+.report-main--perform .section-body {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.report-main--perform .section-label {
+  font-size: 12px;
 }
 
 .intelligence-error {

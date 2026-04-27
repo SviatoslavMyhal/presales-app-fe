@@ -11,7 +11,7 @@ const ORDER = ['high', 'medium', 'low'] as const
 
 const GROUP_META: Record<
   (typeof ORDER)[number],
-  { title: string; hint: string; short: string }
+  { title: string, hint: string, short: string }
 > = {
   high: {
     title: 'High severity',
@@ -41,16 +41,16 @@ const grouped = computed(() => {
       arr.push(r)
     }
   }
-  return ORDER.map((severity) => ({
+  return ORDER.map(severity => ({
     severity,
     items: map.get(severity) ?? [],
     ...GROUP_META[severity],
-  })).filter((g) => g.items.length > 0)
+  })).filter(g => g.items.length > 0)
 })
 
 const summary = computed(() => {
   const r = props.risks
-  const n = (s: (typeof ORDER)[number]) => r.filter((x) => x.severity === s).length
+  const n = (s: (typeof ORDER)[number]) => r.filter(x => x.severity === s).length
   return {
     total: r.length,
     high: n('high'),
@@ -72,7 +72,10 @@ const summary = computed(() => {
         aria-live="polite"
       >
         <span class="risks-summary__total">{{ summary.total }} risk{{ summary.total === 1 ? '' : 's' }}</span>
-        <span class="risks-summary__dots" aria-hidden="true">
+        <span
+          class="risks-summary__dots"
+          aria-hidden="true"
+        >
           <span
             v-if="summary.high"
             class="risks-dot risks-dot--high"

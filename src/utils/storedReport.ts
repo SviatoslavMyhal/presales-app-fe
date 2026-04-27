@@ -3,7 +3,7 @@ import type { IntelligenceResponse, SynthesisReport } from '@/types/presales'
 /**
  * Normalize API-stored JSON (full analyze result, analyze/save wrapper, or raw synthesis) to SynthesisReport.
  */
-export function extractSynthesisReport (result: unknown): SynthesisReport | null {
+export function extractSynthesisReport(result: unknown): SynthesisReport | null {
   if (!result || typeof result !== 'object') {
     return null
   }
@@ -57,7 +57,7 @@ export function extractSynthesisReport (result: unknown): SynthesisReport | null
   return null
 }
 
-function looksLikeSynthesisReport (x: object): boolean {
+function looksLikeSynthesisReport(x: object): boolean {
   if (!x || typeof x !== 'object') {
     return false
   }
@@ -80,7 +80,7 @@ export interface StoredInputFields {
 /**
  * Pull original analyze form fields from stored report JSON (top-level, nested `analysis`, `payload`, `request`).
  */
-export function extractStoredInputFields (result: unknown): StoredInputFields {
+export function extractStoredInputFields(result: unknown): StoredInputFields {
   const empty: StoredInputFields = { jobPost: '' }
   if (!result || typeof result !== 'object') {
     return empty
@@ -121,7 +121,7 @@ export function extractStoredInputFields (result: unknown): StoredInputFields {
 /**
  * Intelligence snapshot from stored result (`intelligence` or nested under `analysis`).
  */
-export function extractStoredIntelligence (result: unknown): IntelligenceResponse | undefined {
+export function extractStoredIntelligence(result: unknown): IntelligenceResponse | undefined {
   if (!result || typeof result !== 'object') {
     return undefined
   }
@@ -146,7 +146,28 @@ export function extractStoredIntelligence (result: unknown): IntelligenceRespons
 /**
  * Minimal intelligence payload for proposal API when a legacy saved report has no intelligence snapshot.
  */
-export function buildStubIntelligenceForProposal (): IntelligenceResponse {
+/**
+ * Risk / strategy snapshots from stored full pipeline JSON (for tools APIs).
+ */
+export function extractPipelineRiskStrategy(result: unknown): { risk?: unknown, strategy?: unknown } {
+  if (!result || typeof result !== 'object') {
+    return {}
+  }
+  const root = result as Record<string, unknown>
+  const layers: Record<string, unknown>[] = [root]
+  const analysis = root.analysis
+  if (analysis && typeof analysis === 'object') {
+    layers.push(analysis as Record<string, unknown>)
+  }
+  for (const o of layers) {
+    if ('risk' in o || 'strategy' in o) {
+      return { risk: o.risk, strategy: o.strategy }
+    }
+  }
+  return {}
+}
+
+export function buildStubIntelligenceForProposal(): IntelligenceResponse {
   return {
     status: 'success',
     error: null,

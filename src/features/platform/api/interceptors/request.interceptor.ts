@@ -21,5 +21,5 @@ const requestErrorInterceptor = (error: AxiosError): Promise<AxiosError> => {
 
 export {
   requestInterceptor,
-  requestErrorInterceptor
+  requestErrorInterceptor,
 }

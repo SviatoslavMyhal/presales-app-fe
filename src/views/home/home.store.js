@@ -1,6 +1,6 @@
 export const useHomeStore = defineStore('homeStore', () => {
-    const testVar = ref('Hello');
-    return {
-        testVar
-    };
-});
+  const testVar = ref('Hello')
+  return {
+    testVar,
+  }
+})

@@ -10,7 +10,7 @@ import autoImport from './.config/auto-imports/auto-import.json'
 
 /** unplugin-auto-import may emit non-identifier keys; ESLint globals must be GlobalsConfig-shaped. */
 const autoImportEslintGlobals = Object.fromEntries(
-  Object.entries(autoImport.globals).filter(([name]) => name !== '$defs')
+  Object.entries(autoImport.globals).filter(([name]) => name !== '$defs'),
 ) as Linter.Globals
 
 export default defineConfigWithVueTs(
@@ -19,7 +19,7 @@ export default defineConfigWithVueTs(
     '**/dist-ssr/**',
     '**/coverage/**',
     'public/**',
-    'src/features/platform/api/schema.ts'
+    'src/features/platform/api/schema.ts',
   ]),
 
   pluginStylistic.configs.recommended,
@@ -32,7 +32,7 @@ export default defineConfigWithVueTs(
     files: ['**/*.{vue,ts,mts,tsx}'],
     rules: eslintRules,
     languageOptions: {
-      globals: autoImportEslintGlobals
-    }
-  }
+      globals: autoImportEslintGlobals,
+    },
+  },
 )

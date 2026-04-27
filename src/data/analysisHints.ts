@@ -1,6 +1,6 @@
 export type AnalysisHintKind = 'tip' | 'fact'
 
-export type AnalysisHintEntry = {
+export interface AnalysisHintEntry {
   kind: AnalysisHintKind
   label: string
   body: string

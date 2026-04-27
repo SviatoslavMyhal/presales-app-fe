@@ -6,7 +6,7 @@ const props = withDefaults(
     /** 16px — buttons; 32px — inline; 64px — hero / page masks */
     size?: 'xs' | 'sm' | 'lg'
   }>(),
-  { size: 'lg' }
+  { size: 'lg' },
 )
 
 const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '_')

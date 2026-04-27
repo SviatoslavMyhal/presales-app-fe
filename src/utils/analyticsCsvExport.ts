@@ -18,16 +18,16 @@ function rowToLine(cells: (string | number)[]): string {
   return cells.map(escapeCsvCell).join(',')
 }
 
-export type RiskRowForCsv = { key: string; label: string; count: number }
+export interface RiskRowForCsv { key: string, label: string, count: number }
 
-export type ClientSegmentForCsv = {
+export interface ClientSegmentForCsv {
   key: string
   label: string
   count: number
   pct: number
 }
 
-export type AnalyticsCsvExportOptions = {
+export interface AnalyticsCsvExportOptions {
   /** Workspace total report count from summary KPI (metadata row). */
   totalReports?: number
 }
@@ -37,7 +37,7 @@ export type AnalyticsCsvExportOptions = {
  * - `section`: `risk` (distribution of risk labels) or `client_type` (client mix).
  * - `pct`: for risks, share of total risk occurrences (sum of counts); for client types, % of all classified clients.
  */
-export function downloadAnalyticsRisksClientCsv (
+export function downloadAnalyticsRisksClientCsv(
   riskRows: RiskRowForCsv[],
   clientSegments: ClientSegmentForCsv[],
   options?: AnalyticsCsvExportOptions,
@@ -57,8 +57,8 @@ export function downloadAnalyticsRisksClientCsv (
 
   const riskDenom = riskRows.reduce((sum, r) => sum + r.count, 0)
   for (const r of riskRows) {
-    const share =
-      riskDenom > 0
+    const share
+      = riskDenom > 0
         ? Math.round((r.count / riskDenom) * 1000) / 10
         : ''
     lines.push(rowToLine(['risk', r.key, r.label, r.count, share]))

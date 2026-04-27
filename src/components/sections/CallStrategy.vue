@@ -289,7 +289,6 @@ defineProps<{
   color: var(--text-secondary);
 }
 
-
 /* --- Outcome --- */
 .outcome-panel {
   margin-bottom: 20px;

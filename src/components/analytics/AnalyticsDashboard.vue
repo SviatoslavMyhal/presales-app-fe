@@ -5,10 +5,10 @@ import { downloadAnalyticsRisksClientCsv } from '@/utils/analyticsCsvExport'
 
 withDefaults(
   defineProps<{
-    /** When true, hide the large title block (use on /reports/analytics when layout provides the header). */
+    /** When true, hide the large title block (use on workspace Insights when the view provides the hero). */
     hideIntro?: boolean
   }>(),
-  { hideIntro: false }
+  { hideIntro: false },
 )
 
 const {
@@ -30,11 +30,11 @@ const {
   fmt1,
 } = useAnalyticsSummary()
 
-function handleExportCsv () {
+function handleExportCsv() {
   const d = data.value
   downloadAnalyticsRisksClientCsv(
-    riskRows.value.map((r) => ({ key: r.key, label: r.label, count: r.count })),
-    clientTypeSegments.value.map((s) => ({
+    riskRows.value.map(r => ({ key: r.key, label: r.label, count: r.count })),
+    clientTypeSegments.value.map(s => ({
       key: s.key,
       label: s.label,
       count: s.count,
@@ -366,7 +366,10 @@ function handleExportCsv () {
               >
                 <span class="timeline-table__cell timeline-table__cell--date">{{ shortDate(row.date) }}</span>
                 <span class="timeline-table__cell timeline-table__cell--vol">
-                  <span class="timeline-table__bar" :style="{ width: `${row.barPct}%` }" />
+                  <span
+                    class="timeline-table__bar"
+                    :style="{ width: `${row.barPct}%` }"
+                  />
                   <span class="timeline-table__count">{{ row.reports }}</span>
                 </span>
                 <span class="timeline-table__cell timeline-table__cell--score">{{ fmt1(row.avg_score) }}</span>

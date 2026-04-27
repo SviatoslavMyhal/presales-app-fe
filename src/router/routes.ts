@@ -1,15 +1,16 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-import { appRoutes } from '@/router/app.routes'
+import { appRoutes, publicRoutes } from '@/router/app.routes'
 
 const routes: RouteRecordRaw[] = [
   ...appRoutes,
+  ...publicRoutes,
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/'
-  }
+    redirect: '/',
+  },
 ]
 
 export {
-  routes
+  routes,
 }

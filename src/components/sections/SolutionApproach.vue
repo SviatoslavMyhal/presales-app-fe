@@ -24,8 +24,14 @@ defineProps<{
       >
         <div class="approach-rail">
           <span class="approach-node">
-            <span class="approach-node__glow" aria-hidden="true" />
-            <span class="approach-node__ring" aria-hidden="true" />
+            <span
+              class="approach-node__glow"
+              aria-hidden="true"
+            />
+            <span
+              class="approach-node__ring"
+              aria-hidden="true"
+            />
             <span class="approach-node__index">{{ String(index + 1).padStart(2, '0') }}</span>
           </span>
           <span

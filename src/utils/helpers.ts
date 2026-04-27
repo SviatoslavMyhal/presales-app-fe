@@ -5,24 +5,24 @@ interface IEventMap {
 }
 
 class EventEmitter extends EventTarget {
-  listen<K extends keyof IEventMap> (
+  listen<K extends keyof IEventMap>(
     eventName: K,
     callback: (data: IEventMap[K]) => void,
-    options?: AddEventListenerOptions
+    options?: AddEventListenerOptions,
   ) {
     const handler = (event: CustomEvent<IEventMap[K]>) => callback(event.detail)
     this.addEventListener(eventName, handler as EventListener, options)
 
     return {
-      remove: () => this.removeEventListener(eventName, handler as EventListener)
+      remove: () => this.removeEventListener(eventName, handler as EventListener),
     }
   }
 
-  publish<K extends keyof IEventMap> (eventName: K, data: IEventMap[K]): void {
+  publish<K extends keyof IEventMap>(eventName: K, data: IEventMap[K]): void {
     this.dispatchEvent(new CustomEvent(eventName, { detail: data }))
   }
 }
 
 export const helpers = {
-  eventEmitter: new EventEmitter()
+  eventEmitter: new EventEmitter(),
 }

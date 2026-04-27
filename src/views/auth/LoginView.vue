@@ -18,18 +18,18 @@ const router = useRouter()
 const formRef = ref<FormInstance>()
 const form = reactive({
   email: '',
-  password: ''
+  password: '',
 })
 
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-function resolveAfterAuth () {
+function resolveAfterAuth() {
   const raw = route.query.redirect
   if (typeof raw === 'string' && raw.startsWith('/')) {
     return raw
   }
-  return { name: routeNames.reports }
+  return { name: routeNames.today }
 }
 
 onMounted(() => {
@@ -40,20 +40,23 @@ onMounted(() => {
 
 const rules: FormRules = authEmailPasswordRules
 
-async function onSubmit () {
+async function onSubmit() {
   error.value = null
   try {
     await formRef.value?.validate()
-  } catch {
+  }
+  catch {
     return
   }
   loading.value = true
   try {
     await auth.login(form.email.trim(), form.password)
     void router.replace(resolveAfterAuth())
-  } catch (e) {
+  }
+  catch (e) {
     error.value = formatApiError(e)
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

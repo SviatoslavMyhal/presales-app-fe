@@ -7,7 +7,7 @@ const saveTitle = defineModel<string>('saveTitle', { default: '' })
 
 defineProps<{
   showMobileNav: boolean
-  navItems: readonly { id: string; label: string; icon: string }[]
+  navItems: readonly { id: string, label: string, icon: string }[]
   showSaveControls: boolean
   saving: boolean
   variant: 'live' | 'saved'
@@ -24,13 +24,14 @@ const emit = defineEmits<{
   exportJson: []
   printReport: []
   openProposal: []
+  openTools: []
   leave: []
   reset: []
   requestDelete: []
   close: []
 }>()
 
-function onScroll (id: string) {
+function onScroll(id: string) {
   emit('scroll', id)
 }
 </script>
@@ -214,6 +215,14 @@ function onScroll (id: string) {
           </button>
         </div>
 
+        <button
+          v-if="canShowProposalCta"
+          type="button"
+          class="mobile-sheet__btn mobile-sheet__btn--secondary"
+          @click="emit('openTools'); emit('close')"
+        >
+          Call kit
+        </button>
         <button
           v-if="canShowProposalCta"
           type="button"

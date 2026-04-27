@@ -17,11 +17,11 @@ const ANGLE_ORDER = [
   'speed',
 ] as const
 
-function normalizeAngle (angle: string | undefined): string {
+function normalizeAngle(angle: string | undefined): string {
   return (angle || 'general').toLowerCase().replace(/\s+/g, '_')
 }
 
-function sortAngleKeys (keys: string[]): string[] {
+function sortAngleKeys(keys: string[]): string[] {
   return [...keys].sort((a, b) => {
     const ia = (ANGLE_ORDER as readonly string[]).indexOf(a)
     const ib = (ANGLE_ORDER as readonly string[]).indexOf(b)

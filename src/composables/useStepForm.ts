@@ -9,7 +9,7 @@ export function useStepForm() {
     job_post: '',
     client_messages: '',
     team_expertise: '',
-    constraints: ''
+    constraints: '',
   })
 
   const currentStep = ref(0)
@@ -23,7 +23,7 @@ export function useStepForm() {
     if (!step) {
       return false
     }
-    const value = (formData.value[step.key] as string) ?? ''
+    const value = (formData.value[step.key]!) ?? ''
     if (!step.rule.required) {
       errors.value[index] = ''
       return true
@@ -77,12 +77,12 @@ export function useStepForm() {
     return out
   }
 
-  function resetForm (): void {
+  function resetForm(): void {
     formData.value = {
       job_post: '',
       client_messages: '',
       team_expertise: '',
-      constraints: ''
+      constraints: '',
     }
     currentStep.value = 0
     touched.value = [false, false, false, false]
@@ -101,6 +101,6 @@ export function useStepForm() {
     prevStep,
     validateStep,
     getPayload,
-    resetForm
+    resetForm,
   }
 }

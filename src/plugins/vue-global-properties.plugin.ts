@@ -2,7 +2,7 @@ import type { Plugin } from 'vue'
 import { formatLabel } from '@/utils/formatLabel'
 
 export const globalProperties = {
-  $formatLabel: formatLabel
+  $formatLabel: formatLabel,
 } as const
 
 export const VueGlobalPropertiesPlugin: Plugin = {
@@ -10,5 +10,5 @@ export const VueGlobalPropertiesPlugin: Plugin = {
     for (const i in globalProperties) {
       app.config.globalProperties[i] = globalProperties[i as keyof typeof globalProperties]
     }
-  }
+  },
 }

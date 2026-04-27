@@ -6,7 +6,7 @@ import type { PresalesRequest, PresalesResponse, SynthesisReport } from '@/types
 import { computed, watch } from 'vue'
 
 defineOptions({
-  name: 'StepForm'
+  name: 'StepForm',
 })
 
 const props = defineProps<{
@@ -30,7 +30,7 @@ const {
   nextStep,
   prevStep,
   getPayload,
-  resetForm
+  resetForm,
 } = useStepForm()
 
 const activeConfig = computed((): StepConfig => {
@@ -53,7 +53,7 @@ watch(
     formData.value.team_expertise = v.team_expertise ?? ''
     formData.value.constraints = v.constraints ?? ''
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 )
 
 function onFieldUpdate(v: string) {
@@ -83,9 +83,11 @@ function segmentClass(index: number): string[] {
   const classes: string[] = ['segment']
   if (index < currentStep.value) {
     classes.push('segment--done')
-  } else if (index === currentStep.value) {
+  }
+  else if (index === currentStep.value) {
     classes.push('segment--active')
-  } else {
+  }
+  else {
     classes.push('segment--todo')
   }
   return classes

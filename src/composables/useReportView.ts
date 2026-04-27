@@ -12,7 +12,7 @@ import { onKeyStroke } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 
-export type ReportViewProps = {
+export interface ReportViewProps {
   report?: SynthesisReport
   analyzePayload?: PresalesRequest | null
   variant?: 'live' | 'saved'
@@ -24,9 +24,16 @@ export type ReportViewProps = {
   constraints?: string
   savedReportId?: string | null
   deleteInProgress?: boolean
+  /** Full pipeline `risk` / `strategy` from analyze (for tools APIs). */
+  pipelineRisk?: unknown
+  pipelineStrategy?: unknown
+  /** Workspace opportunity modes — Perform hides chrome and focuses the call. */
+  workspaceMode?: 'prepare' | 'perform'
+  /** When true, parent already applied top inset for the fixed report header (e.g. opportunity page). */
+  suppressTopInset?: boolean
 }
 
-export function useReportView (props: ReportViewProps) {
+export function useReportView(props: ReportViewProps) {
   const auth = useAuthStore()
   const saveTitle = ref('')
   const saving = ref(false)
@@ -46,7 +53,7 @@ export function useReportView (props: ReportViewProps) {
     },
   )
 
-  async function saveToWorkspace () {
+  async function saveToWorkspace() {
     const p = props.analyzePayload
     if (!p?.job_post?.trim()) {
       return
@@ -58,19 +65,22 @@ export function useReportView (props: ReportViewProps) {
         ...(p.client_messages?.trim() ? { client_messages: p.client_messages.trim() } : {}),
         ...(p.team_expertise?.trim() ? { team_expertise: p.team_expertise.trim() } : {}),
         ...(p.constraints?.trim() ? { constraints: p.constraints.trim() } : {}),
-        ...(saveTitle.value.trim() ? { title: saveTitle.value.trim() } : {})
+        ...(saveTitle.value.trim() ? { title: saveTitle.value.trim() } : {}),
       })
       reportSaved.value = true
-      ElMessage.success('Report saved to your workspace')
-    } catch (e) {
+      ElMessage.success('Saved to your pipeline')
+    }
+    catch (e) {
       ElMessage.error(formatApiError(e))
-    } finally {
+    }
+    finally {
       saving.value = false
     }
   }
 
   const activeSection = ref('intelligence')
   const proposalDrawerOpen = ref(false)
+  const toolsDrawerOpen = ref(false)
   const drawerOpen = ref(false)
   const isDesktopNav = ref(false)
   const showMobileNav = ref(false)
@@ -78,20 +88,24 @@ export function useReportView (props: ReportViewProps) {
 
   onKeyStroke('Escape', () => {
     exportMenuOpen.value = false
+    if (toolsDrawerOpen.value) {
+      toolsDrawerOpen.value = false
+      return
+    }
     if (proposalDrawerOpen.value) {
       proposalDrawerOpen.value = false
     }
   })
 
-  function closeExportMenu () {
+  function closeExportMenu() {
     exportMenuOpen.value = false
   }
 
-  function closeMobileDrawer () {
+  function closeMobileDrawer() {
     drawerOpen.value = false
   }
 
-  function exportMarkdown () {
+  function exportMarkdown() {
     if (!props.report) {
       return
     }
@@ -104,7 +118,7 @@ export function useReportView (props: ReportViewProps) {
     closeExportMenu()
   }
 
-  function exportJson () {
+  function exportJson() {
     if (!props.report) {
       return
     }
@@ -117,14 +131,14 @@ export function useReportView (props: ReportViewProps) {
     closeExportMenu()
   }
 
-  function printReport () {
+  function printReport() {
     closeExportMenu()
     window.print()
   }
 
   let observer: IntersectionObserver | null = null
 
-  function updateLayout () {
+  function updateLayout() {
     if (typeof window === 'undefined') {
       return
     }
@@ -134,7 +148,7 @@ export function useReportView (props: ReportViewProps) {
     showMobileNav.value = w < 1024
   }
 
-  function scrollToSection (id: string) {
+  function scrollToSection(id: string) {
     document.querySelector(`[data-section="${id}"]`)?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
@@ -229,6 +243,7 @@ export function useReportView (props: ReportViewProps) {
     saveToWorkspace,
     activeSection,
     proposalDrawerOpen,
+    toolsDrawerOpen,
     drawerOpen,
     isDesktopNav,
     showMobileNav,

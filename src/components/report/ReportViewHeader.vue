@@ -31,6 +31,7 @@ const emit = defineEmits<{
   exportJson: []
   printReport: []
   openProposal: []
+  openTools: []
   leave: []
   reset: []
   requestDelete: []
@@ -144,6 +145,35 @@ const emit = defineEmits<{
           </li>
         </ul>
       </div>
+      <el-tooltip
+        v-if="canShowProposalCta"
+        content="Call script, objection comebacks, alternatives, follow-up email, and shareable brief — generated from this report."
+        placement="bottom"
+        :show-after="300"
+      >
+        <button
+          type="button"
+          class="btn-tools-cta"
+          aria-label="Open call kit"
+          @click="emit('openTools')"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z"
+            />
+          </svg>
+          <span class="btn-tools-cta__text btn-tools-cta__text--full">Call kit</span>
+          <span class="btn-tools-cta__text btn-tools-cta__text--short">Kit</span>
+        </button>
+      </el-tooltip>
       <button
         v-if="canShowProposalCta"
         type="button"

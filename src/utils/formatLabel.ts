@@ -11,7 +11,7 @@ export function humanizeKey(input: string): string {
   return s
     .split(/[_\s-]+/)
     .filter(Boolean)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
     .join(' ')
 }
 

@@ -16,7 +16,11 @@ const { isOpen, closeModal } = useModals()
     <div>Test Modal Content</div>
 
     <template #footer>
-      <el-button type="primary" class="w-[100px]" @click="closeModal('HomeModal')">
+      <el-button
+        type="primary"
+        class="w-[100px]"
+        @click="closeModal('HomeModal')"
+      >
         Cancel
       </el-button>
     </template>

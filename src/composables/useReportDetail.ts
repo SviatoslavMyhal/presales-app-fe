@@ -10,10 +10,10 @@ import {
   extractSynthesisReport,
 } from '@/utils/storedReport'
 import { ElMessage } from 'element-plus'
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-export function useReportDetail () {
+export function useReportDetail() {
   const route = useRoute()
   const router = useRouter()
 
@@ -42,7 +42,7 @@ export function useReportDetail () {
     return fromResult
   })
 
-  async function load () {
+  async function load() {
     const id = route.params.id as string
     if (!id) {
       error.value = 'Missing report id'
@@ -53,38 +53,49 @@ export function useReportDetail () {
     error.value = null
     try {
       report.value = await reportsGetById(id)
-    } catch (e) {
+    }
+    catch (e) {
       error.value = formatApiError(e)
       report.value = null
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
 
-  onMounted(load)
+  watch(
+    () => route.params.id,
+    () => {
+      void load()
+    },
+    { immediate: true },
+  )
 
-  function back () {
-    router.push({ name: routeNames.reports })
+  function back() {
+    void router.push({ name: routeNames.pipeline })
   }
 
-  async function onRequestDelete () {
+  async function onRequestDelete() {
     const id = report.value?.id
     if (!id || deleting.value) {
       return
     }
     try {
       await confirmDeleteReport(report.value?.title ?? '')
-    } catch {
+    }
+    catch {
       return
     }
     deleting.value = true
     try {
       await reportsDelete(id)
       ElMessage.success('Report deleted')
-      await router.push({ name: routeNames.reports })
-    } catch (e) {
+      await router.push({ name: routeNames.pipeline })
+    }
+    catch (e) {
       ElMessage.error(formatApiError(e))
-    } finally {
+    }
+    finally {
       deleting.value = false
     }
   }

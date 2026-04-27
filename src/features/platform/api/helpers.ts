@@ -1,4 +1,4 @@
-export function parseDynamicKeys (url: string, dynamicKeys?: Record<string, string | number>): string {
+export function parseDynamicKeys(url: string, dynamicKeys?: Record<string, string | number>): string {
   const regex = /\{([^}]+)\}/g
 
   const replacedUrl = url.replace(regex, (match: string, key: string) => {

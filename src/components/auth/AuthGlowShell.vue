@@ -17,7 +17,7 @@ const particles = [
   { left: '42%', top: '8%', delay: '0.8s', duration: '20s' },
   { left: '55%', top: '88%', delay: '1.5s', duration: '15s' },
   { left: '92%', top: '48%', delay: '0.2s', duration: '17s' },
-  { left: '28%', top: '38%', delay: '2.4s', duration: '19s' }
+  { left: '28%', top: '38%', delay: '2.4s', duration: '19s' },
 ]
 </script>
 

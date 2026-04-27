@@ -7,11 +7,14 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue').EffectScope
+  const PRESALES_AI_UNAVAILABLE_MESSAGE: typeof import('../../src/utils/api-error').PRESALES_AI_UNAVAILABLE_MESSAGE
   const VueGlobalPropertiesPlugin: typeof import('../../src/plugins/vue-global-properties.plugin').VueGlobalPropertiesPlugin
   const acceptHMRUpdate: typeof import('pinia').acceptHMRUpdate
   const apiClient: typeof import('../../src/features/platform/api/client').apiClient
+  const assertGeneratorSuccess: typeof import('../../src/utils/generatorResponse').assertGeneratorSuccess
   const asyncComputed: typeof import('@vueuse/core').asyncComputed
   const autoResetRef: typeof import('@vueuse/core').autoResetRef
+  const briefingDocumentToPlainText: typeof import('../../src/utils/briefingPayload').briefingDocumentToPlainText
   const buildStubIntelligenceForProposal: typeof import('../../src/utils/storedReport').buildStubIntelligenceForProposal
   const computed: typeof import('vue').computed
   const computedAsync: typeof import('@vueuse/core').computedAsync
@@ -43,6 +46,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core').eagerComputed
   const effectScope: typeof import('vue').effectScope
   const extendRef: typeof import('@vueuse/core').extendRef
+  const extractPipelineRiskStrategy: typeof import('../../src/utils/storedReport').extractPipelineRiskStrategy
   const extractStoredInputFields: typeof import('../../src/utils/storedReport').extractStoredInputFields
   const extractStoredIntelligence: typeof import('../../src/utils/storedReport').extractStoredIntelligence
   const extractSynthesisReport: typeof import('../../src/utils/storedReport').extractSynthesisReport
@@ -68,6 +72,7 @@ declare global {
   const inject: typeof import('vue').inject
   const injectLocal: typeof import('@vueuse/core').injectLocal
   const isDefined: typeof import('@vueuse/core').isDefined
+  const isEngineOk: typeof import('../../src/composables/useDealWorkspace').isEngineOk
   const isPresalesPipelineFailed: typeof import('../../src/utils/presalesPipeline').isPresalesPipelineFailed
   const isProxy: typeof import('vue').isProxy
   const isReactive: typeof import('vue').isReactive
@@ -103,9 +108,11 @@ declare global {
   const onUnmounted: typeof import('vue').onUnmounted
   const onUpdated: typeof import('vue').onUpdated
   const onWatcherCleanup: typeof import('vue').onWatcherCleanup
+  const parseBriefingDocument: typeof import('../../src/utils/briefingPayload').parseBriefingDocument
   const parseDynamicKeys: typeof import('../../src/features/platform/api/helpers').parseDynamicKeys
   const pausableWatch: typeof import('@vueuse/core').pausableWatch
   const pct: typeof import('../../src/utils/analyticsFormat').pct
+  const presalesRequestFromToolContext: typeof import('../../src/composables/usePresalesToolContext').presalesRequestFromToolContext
   const provide: typeof import('vue').provide
   const provideLocal: typeof import('@vueuse/core').provideLocal
   const reactify: typeof import('@vueuse/core').reactify
@@ -131,6 +138,9 @@ declare global {
   const shallowReactive: typeof import('vue').shallowReactive
   const shallowReadonly: typeof import('vue').shallowReadonly
   const shallowRef: typeof import('vue').shallowRef
+  const sharePathToBriefingApiUrl: typeof import('../../src/utils/briefingShareUrl').sharePathToBriefingApiUrl
+  const sharePathToBriefingSpaUrl: typeof import('../../src/utils/briefingShareUrl').sharePathToBriefingSpaUrl
+  const sharePathToPublicBriefingAppUrl: typeof import('../../src/utils/briefingShareUrl').sharePathToPublicBriefingAppUrl
   const shortDate: typeof import('../../src/utils/analyticsFormat').shortDate
   const storeToRefs: typeof import('pinia').storeToRefs
   const syncRef: typeof import('@vueuse/core').syncRef
@@ -196,6 +206,7 @@ declare global {
   const useCycleList: typeof import('@vueuse/core').useCycleList
   const useDark: typeof import('@vueuse/core').useDark
   const useDateFormat: typeof import('@vueuse/core').useDateFormat
+  const useDealWorkspace: typeof import('../../src/composables/useDealWorkspace').useDealWorkspace
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
   const useDebouncedRefHistory: typeof import('@vueuse/core').useDebouncedRefHistory
@@ -244,6 +255,7 @@ declare global {
   const useKeyModifier: typeof import('@vueuse/core').useKeyModifier
   const useLastChanged: typeof import('@vueuse/core').useLastChanged
   const useLink: typeof import('vue-router').useLink
+  const useLiveAssistStream: typeof import('../../src/composables/useLiveAssist').useLiveAssistStream
   const useLocalStorage: typeof import('@vueuse/core').useLocalStorage
   const useMagicKeys: typeof import('@vueuse/core').useMagicKeys
   const useManualRefHistory: typeof import('@vueuse/core').useManualRefHistory
@@ -266,6 +278,8 @@ declare global {
   const useObjectUrl: typeof import('@vueuse/core').useObjectUrl
   const useOffsetPagination: typeof import('@vueuse/core').useOffsetPagination
   const useOnline: typeof import('@vueuse/core').useOnline
+  const useOpportunityBoard: typeof import('../../src/composables/useOpportunityBoard').useOpportunityBoard
+  const useOpportunityMetaStore: typeof import('../../src/stores/opportunity-meta.store').useOpportunityMetaStore
   const usePageLeave: typeof import('@vueuse/core').usePageLeave
   const useParallax: typeof import('@vueuse/core').useParallax
   const useParentElement: typeof import('@vueuse/core').useParentElement
@@ -280,6 +294,7 @@ declare global {
   const usePreferredLanguages: typeof import('@vueuse/core').usePreferredLanguages
   const usePreferredReducedMotion: typeof import('@vueuse/core').usePreferredReducedMotion
   const usePreferredReducedTransparency: typeof import('@vueuse/core').usePreferredReducedTransparency
+  const usePresalesToolContext: typeof import('../../src/composables/usePresalesToolContext').usePresalesToolContext
   const usePrevious: typeof import('@vueuse/core').usePrevious
   const useProposalGenerator: typeof import('../../src/composables/useProposalGenerator').useProposalGenerator
   const useRafFn: typeof import('@vueuse/core').useRafFn
@@ -368,6 +383,12 @@ declare global {
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
   // @ts-ignore
+  export type { DealWorkspaceApi, DealAnalyzeResponse, DealEngineEnvelope } from '../../src/composables/useDealWorkspace'
+  import('../../src/composables/useDealWorkspace')
+  // @ts-ignore
+  export type { ToolContextInput } from '../../src/composables/usePresalesToolContext'
+  import('../../src/composables/usePresalesToolContext')
+  // @ts-ignore
   export type { UseProposalGeneratorParams } from '../../src/composables/useProposalGenerator'
   import('../../src/composables/useProposalGenerator')
   // @ts-ignore
@@ -379,6 +400,9 @@ declare global {
   // @ts-ignore
   export type { RiskRowForCsv, ClientSegmentForCsv, AnalyticsCsvExportOptions } from '../../src/utils/analyticsCsvExport'
   import('../../src/utils/analyticsCsvExport')
+  // @ts-ignore
+  export type { BriefingSectionBlock, BriefingDocumentModel } from '../../src/utils/briefingPayload'
+  import('../../src/utils/briefingPayload')
   // @ts-ignore
   export type { StoredInputFields } from '../../src/utils/storedReport'
   import('../../src/utils/storedReport')
@@ -393,11 +417,14 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly PRESALES_AI_UNAVAILABLE_MESSAGE: UnwrapRef<typeof import('../../src/utils/api-error')['PRESALES_AI_UNAVAILABLE_MESSAGE']>
     readonly VueGlobalPropertiesPlugin: UnwrapRef<typeof import('../../src/plugins/vue-global-properties.plugin')['VueGlobalPropertiesPlugin']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly apiClient: UnwrapRef<typeof import('../../src/features/platform/api/client')['apiClient']>
+    readonly assertGeneratorSuccess: UnwrapRef<typeof import('../../src/utils/generatorResponse')['assertGeneratorSuccess']>
     readonly asyncComputed: UnwrapRef<typeof import('@vueuse/core')['asyncComputed']>
     readonly autoResetRef: UnwrapRef<typeof import('@vueuse/core')['autoResetRef']>
+    readonly briefingDocumentToPlainText: UnwrapRef<typeof import('../../src/utils/briefingPayload')['briefingDocumentToPlainText']>
     readonly buildStubIntelligenceForProposal: UnwrapRef<typeof import('../../src/utils/storedReport')['buildStubIntelligenceForProposal']>
     readonly computed: UnwrapRef<typeof import('vue')['computed']>
     readonly computedAsync: UnwrapRef<typeof import('@vueuse/core')['computedAsync']>
@@ -429,6 +456,7 @@ declare module 'vue' {
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
+    readonly extractPipelineRiskStrategy: UnwrapRef<typeof import('../../src/utils/storedReport')['extractPipelineRiskStrategy']>
     readonly extractStoredInputFields: UnwrapRef<typeof import('../../src/utils/storedReport')['extractStoredInputFields']>
     readonly extractStoredIntelligence: UnwrapRef<typeof import('../../src/utils/storedReport')['extractStoredIntelligence']>
     readonly extractSynthesisReport: UnwrapRef<typeof import('../../src/utils/storedReport')['extractSynthesisReport']>
@@ -453,6 +481,7 @@ declare module 'vue' {
     readonly inject: UnwrapRef<typeof import('vue')['inject']>
     readonly injectLocal: UnwrapRef<typeof import('@vueuse/core')['injectLocal']>
     readonly isDefined: UnwrapRef<typeof import('@vueuse/core')['isDefined']>
+    readonly isEngineOk: UnwrapRef<typeof import('../../src/composables/useDealWorkspace')['isEngineOk']>
     readonly isPresalesPipelineFailed: UnwrapRef<typeof import('../../src/utils/presalesPipeline')['isPresalesPipelineFailed']>
     readonly isProxy: UnwrapRef<typeof import('vue')['isProxy']>
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
@@ -488,9 +517,11 @@ declare module 'vue' {
     readonly onUnmounted: UnwrapRef<typeof import('vue')['onUnmounted']>
     readonly onUpdated: UnwrapRef<typeof import('vue')['onUpdated']>
     readonly onWatcherCleanup: UnwrapRef<typeof import('vue')['onWatcherCleanup']>
+    readonly parseBriefingDocument: UnwrapRef<typeof import('../../src/utils/briefingPayload')['parseBriefingDocument']>
     readonly parseDynamicKeys: UnwrapRef<typeof import('../../src/features/platform/api/helpers')['parseDynamicKeys']>
     readonly pausableWatch: UnwrapRef<typeof import('@vueuse/core')['pausableWatch']>
     readonly pct: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['pct']>
+    readonly presalesRequestFromToolContext: UnwrapRef<typeof import('../../src/composables/usePresalesToolContext')['presalesRequestFromToolContext']>
     readonly provide: UnwrapRef<typeof import('vue')['provide']>
     readonly provideLocal: UnwrapRef<typeof import('@vueuse/core')['provideLocal']>
     readonly reactify: UnwrapRef<typeof import('@vueuse/core')['reactify']>
@@ -515,6 +546,8 @@ declare module 'vue' {
     readonly shallowReactive: UnwrapRef<typeof import('vue')['shallowReactive']>
     readonly shallowReadonly: UnwrapRef<typeof import('vue')['shallowReadonly']>
     readonly shallowRef: UnwrapRef<typeof import('vue')['shallowRef']>
+    readonly sharePathToBriefingApiUrl: UnwrapRef<typeof import('../../src/utils/briefingShareUrl')['sharePathToBriefingApiUrl']>
+    readonly sharePathToBriefingSpaUrl: UnwrapRef<typeof import('../../src/utils/briefingShareUrl')['sharePathToBriefingSpaUrl']>
     readonly shortDate: UnwrapRef<typeof import('../../src/utils/analyticsFormat')['shortDate']>
     readonly storeToRefs: UnwrapRef<typeof import('pinia')['storeToRefs']>
     readonly syncRef: UnwrapRef<typeof import('@vueuse/core')['syncRef']>
@@ -579,6 +612,7 @@ declare module 'vue' {
     readonly useCycleList: UnwrapRef<typeof import('@vueuse/core')['useCycleList']>
     readonly useDark: UnwrapRef<typeof import('@vueuse/core')['useDark']>
     readonly useDateFormat: UnwrapRef<typeof import('@vueuse/core')['useDateFormat']>
+    readonly useDealWorkspace: UnwrapRef<typeof import('../../src/composables/useDealWorkspace')['useDealWorkspace']>
     readonly useDebounce: UnwrapRef<typeof import('@vueuse/core')['useDebounce']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>
     readonly useDebouncedRefHistory: UnwrapRef<typeof import('@vueuse/core')['useDebouncedRefHistory']>
@@ -626,6 +660,7 @@ declare module 'vue' {
     readonly useKeyModifier: UnwrapRef<typeof import('@vueuse/core')['useKeyModifier']>
     readonly useLastChanged: UnwrapRef<typeof import('@vueuse/core')['useLastChanged']>
     readonly useLink: UnwrapRef<typeof import('vue-router')['useLink']>
+    readonly useLiveAssistStream: UnwrapRef<typeof import('../../src/composables/useLiveAssist')['useLiveAssistStream']>
     readonly useLocalStorage: UnwrapRef<typeof import('@vueuse/core')['useLocalStorage']>
     readonly useMagicKeys: UnwrapRef<typeof import('@vueuse/core')['useMagicKeys']>
     readonly useManualRefHistory: UnwrapRef<typeof import('@vueuse/core')['useManualRefHistory']>
@@ -647,6 +682,8 @@ declare module 'vue' {
     readonly useObjectUrl: UnwrapRef<typeof import('@vueuse/core')['useObjectUrl']>
     readonly useOffsetPagination: UnwrapRef<typeof import('@vueuse/core')['useOffsetPagination']>
     readonly useOnline: UnwrapRef<typeof import('@vueuse/core')['useOnline']>
+    readonly useOpportunityBoard: UnwrapRef<typeof import('../../src/composables/useOpportunityBoard')['useOpportunityBoard']>
+    readonly useOpportunityMetaStore: UnwrapRef<typeof import('../../src/stores/opportunity-meta.store')['useOpportunityMetaStore']>
     readonly usePageLeave: UnwrapRef<typeof import('@vueuse/core')['usePageLeave']>
     readonly useParallax: UnwrapRef<typeof import('@vueuse/core')['useParallax']>
     readonly useParentElement: UnwrapRef<typeof import('@vueuse/core')['useParentElement']>
@@ -661,6 +698,7 @@ declare module 'vue' {
     readonly usePreferredLanguages: UnwrapRef<typeof import('@vueuse/core')['usePreferredLanguages']>
     readonly usePreferredReducedMotion: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedMotion']>
     readonly usePreferredReducedTransparency: UnwrapRef<typeof import('@vueuse/core')['usePreferredReducedTransparency']>
+    readonly usePresalesToolContext: UnwrapRef<typeof import('../../src/composables/usePresalesToolContext')['usePresalesToolContext']>
     readonly usePrevious: UnwrapRef<typeof import('@vueuse/core')['usePrevious']>
     readonly useProposalGenerator: UnwrapRef<typeof import('../../src/composables/useProposalGenerator')['useProposalGenerator']>
     readonly useRafFn: UnwrapRef<typeof import('@vueuse/core')['useRafFn']>
@@ -668,7 +706,6 @@ declare module 'vue' {
     readonly useReportDetail: UnwrapRef<typeof import('../../src/composables/useReportDetail')['useReportDetail']>
     readonly useReportView: UnwrapRef<typeof import('../../src/composables/useReportView')['useReportView']>
     readonly useReportsList: UnwrapRef<typeof import('../../src/composables/useReportsList')['useReportsList']>
-    readonly useReportsWorkspaceLede: UnwrapRef<typeof import('../../src/composables/useReportsWorkspaceLede')['useReportsWorkspaceLede']>
     readonly useRequiredRule: UnwrapRef<typeof import('../../src/composables/useFormConfig')['useRequiredRule']>
     readonly useResizeObserver: UnwrapRef<typeof import('@vueuse/core')['useResizeObserver']>
     readonly useRoute: UnwrapRef<typeof import('vue-router')['useRoute']>

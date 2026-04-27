@@ -2,7 +2,8 @@
 import AgentProgress from '@/components/AgentProgress.vue'
 import ReportView from '@/components/ReportView.vue'
 import StepForm from '@/components/StepForm.vue'
-import { analyzePresales } from '@/api/presales'
+import PrescreenModal from '@/features/presales/components/PrescreenModal.vue'
+import { analyzePresales, presalesPrescreen } from '@/api/presales'
 import type { PresalesAnalyzeResult } from '@/api/backend-types'
 import type { PresalesRequest, PresalesResponse } from '@/types/presales'
 import { formatApiError } from '@/utils/api-error'
@@ -26,18 +27,23 @@ const result = ref<PresalesAnalyzeResult | null>(null)
 const error = ref<string | null>(null)
 const submittedPayload = ref<PresalesRequest | null>(null)
 
+const prescreenOpen = ref(false)
+const prescreenLoading = ref(false)
+const prescreenError = ref<string | null>(null)
+const prescreenPayload = ref<unknown>(null)
+
 const componentProps = computed(() => {
   const r = result.value
   switch (phase.value) {
     case 'form':
       return {
         initialPayload: submittedPayload.value,
-        error: error.value
+        error: error.value,
       }
     case 'loading':
       return {
         result: r,
-        error: error.value
+        error: error.value,
       }
     case 'report':
       return {
@@ -47,19 +53,74 @@ const componentProps = computed(() => {
         jobPost: submittedPayload.value?.job_post,
         clientMessages: submittedPayload.value?.client_messages,
         teamExpertise: submittedPayload.value?.team_expertise,
-        constraints: submittedPayload.value?.constraints
+        constraints: submittedPayload.value?.constraints,
+        pipelineRisk: (r as PresalesResponse | null | undefined)?.risk,
+        pipelineStrategy: (r as PresalesResponse | null | undefined)?.strategy,
       }
     default:
       return {}
   }
 })
 
-function goHome () {
+function goHome() {
   void router.push({ name: routeNames.home })
 }
 
-async function handleFormSubmit (payload: PresalesRequest) {
+async function handleFormSubmit(payload: PresalesRequest) {
   submittedPayload.value = payload
+  prescreenOpen.value = true
+  prescreenLoading.value = true
+  prescreenError.value = null
+  prescreenPayload.value = null
+  try {
+    prescreenPayload.value = await presalesPrescreen(payload)
+  }
+  catch (e: unknown) {
+    prescreenError.value = formatApiError(e)
+  }
+  finally {
+    prescreenLoading.value = false
+  }
+}
+
+async function onPrescreenRetry() {
+  if (!submittedPayload.value) {
+    return
+  }
+  prescreenLoading.value = true
+  prescreenError.value = null
+  try {
+    prescreenPayload.value = await presalesPrescreen(submittedPayload.value)
+  }
+  catch (e: unknown) {
+    prescreenError.value = formatApiError(e)
+  }
+  finally {
+    prescreenLoading.value = false
+  }
+}
+
+function onPrescreenCancel() {
+  prescreenOpen.value = false
+  prescreenLoading.value = false
+  prescreenError.value = null
+  prescreenPayload.value = null
+}
+
+async function onPrescreenSkip() {
+  prescreenOpen.value = false
+  prescreenLoading.value = false
+  prescreenError.value = null
+  await onPrescreenProceed()
+}
+
+async function onPrescreenProceed() {
+  prescreenOpen.value = false
+  prescreenError.value = null
+  const payload = submittedPayload.value
+  if (!payload) {
+    return
+  }
   phase.value = 'loading'
   currentComponent.value = AgentProgress
   error.value = null
@@ -83,17 +144,21 @@ async function handleFormSubmit (payload: PresalesRequest) {
     await nextTick()
     phase.value = 'report'
     currentComponent.value = ReportView
-  } catch (e: unknown) {
+  }
+  catch (e: unknown) {
     error.value = formatApiError(e)
     phase.value = 'form'
     currentComponent.value = StepForm
   }
 }
 
-function handleReset () {
+function handleReset() {
   result.value = null
   submittedPayload.value = null
   error.value = null
+  prescreenPayload.value = null
+  prescreenError.value = null
+  prescreenOpen.value = false
   stepFormKey.value++
   phase.value = 'form'
   currentComponent.value = StepForm
@@ -102,6 +167,16 @@ function handleReset () {
 
 <template>
   <div class="analyze-view-root">
+    <PrescreenModal
+      :open="prescreenOpen"
+      :loading="prescreenLoading"
+      :error="prescreenError"
+      :payload="prescreenPayload"
+      @proceed="onPrescreenProceed"
+      @cancel="onPrescreenCancel"
+      @retry="onPrescreenRetry"
+      @skip="onPrescreenSkip"
+    />
     <div
       class="analyze-bg"
       aria-hidden="true"

@@ -1,7 +1,7 @@
 const responseInterceptor = (response) => {
-    return response.data;
-};
+  return response.data
+}
 const errorInterceptor = (error) => {
-    return Promise.reject(error);
-};
-export { responseInterceptor, errorInterceptor };
+  return Promise.reject(error)
+}
+export { responseInterceptor, errorInterceptor }

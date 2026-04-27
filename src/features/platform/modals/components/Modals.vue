@@ -11,4 +11,3 @@ const { modals } = useModals()
     append-to-body
   />
 </template>
-

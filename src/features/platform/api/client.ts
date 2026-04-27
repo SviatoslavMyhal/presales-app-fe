@@ -4,16 +4,16 @@ import {
   requestErrorInterceptor,
   requestInterceptor,
   errorInterceptor,
-  responseInterceptor
+  responseInterceptor,
 } from './interceptors'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+  baseURL: import.meta.env.VITE_API_URL,
 })
 
 instance.interceptors.response.use(
   res => responseInterceptor(res),
-  err => errorInterceptor(err)
+  err => errorInterceptor(err),
 )
 
 instance.interceptors.request.use(requestInterceptor, requestErrorInterceptor)

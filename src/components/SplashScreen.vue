@@ -21,15 +21,15 @@ const router = useRouter()
 const auth = useAuthStore()
 const { isAuthenticated } = storeToRefs(auth)
 
-function goAuth () {
+function goAuth() {
   router.push({ name: routeNames.login })
 }
 
-function goReports () {
-  router.push({ name: routeNames.reports })
+function goWorkspace() {
+  router.push({ name: routeNames.today })
 }
 
-function signOut () {
+function signOut() {
   auth.logout()
 }
 
@@ -53,7 +53,7 @@ const particles = [
   { left: '65%', top: '18%', delay: '1s', duration: '13s' },
   { left: '12%', top: '55%', delay: '1.8s', duration: '21s' },
   { left: '48%', top: '72%', delay: '0.6s', duration: '14s' },
-  { left: '78%', top: '92%', delay: '2.2s', duration: '16s' }
+  { left: '78%', top: '92%', delay: '2.2s', duration: '16s' },
 ]
 </script>
 
@@ -195,9 +195,9 @@ const particles = [
           v-else
           type="button"
           class="cta-auth"
-          @click="goReports"
+          @click="goWorkspace"
         >
-          <span class="cta-auth__label">My reports</span>
+          <span class="cta-auth__label">Workspace</span>
         </button>
       </div>
       <p
@@ -442,6 +442,7 @@ const particles = [
   letter-spacing: 0.01em;
   color: var(--text-muted);
   text-align: center;
+  opacity: 0;
   transform: translateY(12px);
   transition:
     opacity var(--transition-slow) 380ms,

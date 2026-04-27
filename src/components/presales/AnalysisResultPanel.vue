@@ -9,13 +9,13 @@ const props = defineProps<{
 const sectionKeys = computed(() => {
   const r = props.result
   if (!r) return []
-  return ['analyst', 'risk', 'strategy', 'synthesis'].filter((k) => k in r)
+  return ['analyst', 'risk', 'strategy', 'synthesis'].filter(k => k in r)
 })
 
 const otherKeys = computed(() => {
   if (!props.result) return []
   const known = new Set(['analyst', 'risk', 'strategy', 'synthesis'])
-  return Object.keys(props.result).filter((k) => !known.has(k))
+  return Object.keys(props.result).filter(k => !known.has(k))
 })
 </script>
 

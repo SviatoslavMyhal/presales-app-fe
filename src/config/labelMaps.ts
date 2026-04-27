@@ -48,5 +48,5 @@ export const LABEL_MAP: Record<string, string> = {
   deliverable: 'Deliverable',
   discovery: 'Discovery',
   implementation: 'Implementation',
-  rollout: 'Rollout'
+  rollout: 'Rollout',
 }

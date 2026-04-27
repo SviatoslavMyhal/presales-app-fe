@@ -6,10 +6,10 @@ type TApiSignalCallback<T> = (signal: AbortSignal) => T
  * @returns abort - function to abort a single API call
  * @returns abortAll - function to abort all API calls
  */
-export function useAbortController<TKeys extends PropertyKey> () {
+export function useAbortController<TKeys extends PropertyKey>() {
   const abortControllers = new Map<TKeys, AbortController>()
 
-  function call<TReturned> (key: TKeys, callback: TApiSignalCallback<TReturned>) {
+  function call<TReturned>(key: TKeys, callback: TApiSignalCallback<TReturned>) {
     abort(key)
     const controller = new AbortController()
     abortControllers.set(key, controller)
@@ -17,11 +17,11 @@ export function useAbortController<TKeys extends PropertyKey> () {
     return callback(controller.signal)
   }
 
-  function abort (key: TKeys) {
+  function abort(key: TKeys) {
     abortControllers.get(key)?.abort()
   }
 
-  function abortAll () {
+  function abortAll() {
     abortControllers.forEach(controller => controller.abort())
   }
 
@@ -30,6 +30,6 @@ export function useAbortController<TKeys extends PropertyKey> () {
   return {
     call,
     abort,
-    abortAll
+    abortAll,
   }
 }

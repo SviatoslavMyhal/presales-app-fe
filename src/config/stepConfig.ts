@@ -8,7 +8,7 @@ export const stepConfig: StepConfig[] = [
     title: 'Project Description',
     description: 'Paste the job post or project brief from your client',
     placeholder:
-      "We're looking for a team to build a SaaS platform that...",
+      'We\'re looking for a team to build a SaaS platform that...',
     icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
     optional: false,
     minRows: 7,
@@ -16,9 +16,9 @@ export const stepConfig: StepConfig[] = [
       required: true,
       minLength: 30,
       errorMessage:
-        'Please provide a project description (at least 30 characters)'
+        'Please provide a project description (at least 30 characters)',
     },
-    hint: 'The more detail you provide, the sharper the analysis'
+    hint: 'The more detail you provide, the sharper the analysis',
   },
   {
     key: 'client_messages',
@@ -32,8 +32,8 @@ export const stepConfig: StepConfig[] = [
     minRows: 4,
     rule: {
       required: false,
-      errorMessage: ''
-    }
+      errorMessage: '',
+    },
   },
   {
     key: 'team_expertise',
@@ -47,9 +47,9 @@ export const stepConfig: StepConfig[] = [
     minRows: 4,
     rule: {
       required: false,
-      errorMessage: ''
+      errorMessage: '',
     },
-    hint: 'Helps the agent tailor positioning to your actual strengths'
+    hint: 'Helps the agent tailor positioning to your actual strengths',
   },
   {
     key: 'constraints',
@@ -63,7 +63,7 @@ export const stepConfig: StepConfig[] = [
     minRows: 3,
     rule: {
       required: false,
-      errorMessage: ''
-    }
-  }
+      errorMessage: '',
+    },
+  },
 ]

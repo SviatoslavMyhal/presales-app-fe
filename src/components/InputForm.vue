@@ -19,7 +19,7 @@ const form = reactive<PresalesRequest>({
   job_post: '',
   client_messages: '',
   team_expertise: '',
-  constraints: ''
+  constraints: '',
 })
 
 watch(
@@ -33,7 +33,7 @@ watch(
     form.team_expertise = v.team_expertise ?? ''
     form.constraints = v.constraints ?? ''
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 )
 
 const rules: FormRules = {
@@ -41,9 +41,9 @@ const rules: FormRules = {
     {
       required: true,
       message: 'Job post / project description is required',
-      trigger: 'blur'
-    }
-  ]
+      trigger: 'blur',
+    },
+  ],
 }
 
 function buildPayload(): PresalesRequest {

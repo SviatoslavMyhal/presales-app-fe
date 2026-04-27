@@ -42,7 +42,8 @@ export interface AnalyzeSaveResponse {
 
 export interface CreateReportBody {
   title?: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  /** Job description text stored with the report for list/detail previews. */
+  job_post?: string
   payload: Record<string, unknown>
 }
 
@@ -52,6 +53,8 @@ export interface ReportListItem {
   title: string | null
   created_at: string
   updated_at: string
+  /** Short job text for pipeline cards (when API returns it). */
+  job_post?: string | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result?: any
 }
@@ -71,6 +74,6 @@ export interface ReportDetail {
   updated_at: string
   /** Original project / job description when returned from GET report (optional). */
   job_post?: string | null
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   result: Record<string, unknown>
 }

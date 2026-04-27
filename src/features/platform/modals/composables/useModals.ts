@@ -10,9 +10,9 @@ type TComponentProps = {
   [K in TModalsKeys]: TInferProps<ReturnType<TModalsType[K]>>
 }
 
-const modals = ref(new Map<TModalsKeys, { component: any; props?: any; isOpen: boolean }>())
+const modals = ref(new Map<TModalsKeys, { component: any, props?: any, isOpen: boolean }>())
 
-export function useModals () {
+export function useModals() {
   const openModal = <K extends TModalsKeys>(name: K, props?: TComponentProps[K]) => {
     modals.value.set(name, { component: markRaw(Modals[name]() as Component), props, isOpen: true })
   }
@@ -33,7 +33,6 @@ export function useModals () {
     modals,
     isOpen,
     openModal,
-    closeModal
+    closeModal,
   }
 }
-

@@ -10,10 +10,11 @@ import {
   AutoImportScripts,
   IconNamesGenerator,
   ModalsGenerator,
-  RouteNamesGenerator
+  RouteNamesGenerator,
 } from './.config'
 
 export default defineConfig({
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
   plugins: [
     vue(),
     svgLoader(),
@@ -22,12 +23,12 @@ export default defineConfig({
     AutoImportScripts(),
     IconNamesGenerator(),
     ModalsGenerator(),
-    RouteNamesGenerator()
+    RouteNamesGenerator(),
   ],
 
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
 })

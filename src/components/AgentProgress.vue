@@ -2,7 +2,6 @@
 import AnalysisHints from '@/components/AnalysisHints.vue'
 import BrandLoader from '@/components/loaders/BrandLoader.vue'
 import type { PresalesRequest, PresalesResponse, SynthesisReport } from '@/types/presales'
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 
 const props = defineProps<{
   result?: PresalesResponse | null
@@ -16,34 +15,34 @@ type AgentStatus = 'idle' | 'active' | 'complete'
 const agents = [
   {
     name: 'Analyst',
-    desc: 'Validates inputs and extracts structured signals.'
+    desc: 'Validates inputs and extracts structured signals.',
   },
   {
     name: 'Risk & Discovery',
-    desc: 'Surfaces risks and discovery angles.'
+    desc: 'Surfaces risks and discovery angles.',
   },
   {
     name: 'Strategy',
-    desc: 'Shapes positioning and solution framing.'
+    desc: 'Shapes positioning and solution framing.',
   },
   {
     name: 'Synthesis',
-    desc: 'Assembles the final presales report.'
-  }
+    desc: 'Assembles the final presales report.',
+  },
 ]
 
 const statuses = ref<AgentStatus[]>(['idle', 'idle', 'idle', 'idle'])
 
 let timers: ReturnType<typeof setTimeout>[] = []
 
-function clearTimers () {
+function clearTimers() {
   for (const t of timers) {
     clearTimeout(t)
   }
   timers = []
 }
 
-function setAll (s: AgentStatus[]) {
+function setAll(s: AgentStatus[]) {
   statuses.value = [...s]
 }
 
@@ -64,7 +63,7 @@ const progressWidth = computed(() => {
   return base
 })
 
-function finishPipeline () {
+function finishPipeline() {
   clearTimers()
   setAll(['complete', 'complete', 'complete', 'complete'])
 }
@@ -75,7 +74,7 @@ watch(
     if (r) {
       finishPipeline()
     }
-  }
+  },
 )
 
 onMounted(() => {
@@ -88,7 +87,7 @@ onMounted(() => {
     [0, ['active', 'idle', 'idle', 'idle']],
     [4000, ['complete', 'active', 'idle', 'idle']],
     [8000, ['complete', 'complete', 'active', 'idle']],
-    [12000, ['complete', 'complete', 'complete', 'active']]
+    [12000, ['complete', 'complete', 'complete', 'active']],
   ]
   for (const [delay, next] of seq) {
     timers.push(
@@ -97,7 +96,7 @@ onMounted(() => {
           return
         }
         setAll(next)
-      }, delay)
+      }, delay),
     )
   }
 })

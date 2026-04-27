@@ -15,6 +15,9 @@ The app orchestrates a **multi-agent presales pipeline** on the backend. You des
 - **Save to workspace** — Persist analyses as reports when signed in (title optional).
 - **Reports** — Browse saved reports, open details, delete entries, and start a **new analysis** from the workspace.
 - **Analytics** — Aggregated signals from saved reports (trends, mix, risk signals) when data exists.
+- **Pre-check** — Before the heavy pipeline, a fast `POST /api/presales/prescreen` run opens a blocking modal (traffic-light risk, signals); you can edit inputs or continue to full analysis.
+- **Tools** — From the report header, open **Tools** for call script (timer + per-phase copy), objections, competitors, follow-up email, and (when signed in) a **shareable client briefing** link. Proposal draft remains a separate action.
+- **Public briefing** — Shared links open at `/briefing/:slug` (minimal chrome, copy-friendly).
 - **Auth** — Sign up / sign in; email confirmation is supported when enabled by the backend. Tokens are stored in `sessionStorage` for the active tab.
 
 ---
@@ -71,6 +74,7 @@ Vite only exposes variables prefixed with `VITE_`.
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `VITE_API_URL` | Recommended | Base URL of the presales backend **without** a trailing slash, e.g. `http://localhost:3000`. If unset, the client falls back to `http://localhost:3000`. |
+| `VITE_API_BASE_URL` | Optional | Alias for `VITE_API_URL` (same value; use whichever matches your deployment docs). |
 
 Copy the example file and adjust:
 

@@ -4,7 +4,11 @@ export const routeNames = {
   analyze: 'analyze',
   login: 'login',
   signup: 'signup',
-  reports: 'reports',
+  today: 'today',
+  pipeline: 'pipeline',
   reportsAnalytics: 'reportsAnalytics',
-  reportDetail: 'reportDetail'
+  dealWorkspace: 'dealWorkspace',
+  liveAssist: 'liveAssist',
+  opportunityDetail: 'opportunityDetail',
+  publicBriefing: 'publicBriefing',
 }

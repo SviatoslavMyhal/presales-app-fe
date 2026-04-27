@@ -5,23 +5,23 @@
  * @returns abortAll - function to abort all API calls
  */
 export function useAbortController() {
-    const abortControllers = new Map();
-    function call(key, callback) {
-        abort(key);
-        const controller = new AbortController();
-        abortControllers.set(key, controller);
-        return callback(controller.signal);
-    }
-    function abort(key) {
-        abortControllers.get(key)?.abort();
-    }
-    function abortAll() {
-        abortControllers.forEach(controller => controller.abort());
-    }
-    onUnmounted(abortAll);
-    return {
-        call,
-        abort,
-        abortAll
-    };
+  const abortControllers = new Map()
+  function call(key, callback) {
+    abort(key)
+    const controller = new AbortController()
+    abortControllers.set(key, controller)
+    return callback(controller.signal)
+  }
+  function abort(key) {
+    abortControllers.get(key)?.abort()
+  }
+  function abortAll() {
+    abortControllers.forEach(controller => controller.abort())
+  }
+  onUnmounted(abortAll)
+  return {
+    call,
+    abort,
+    abortAll,
+  }
 }

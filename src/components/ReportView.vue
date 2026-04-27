@@ -1,16 +1,27 @@
 <script setup lang="ts">
 import ProposalDrawer from '@/components/ProposalDrawer.vue'
+import ReportActionStrip from '@/components/report/ReportActionStrip.vue'
+import ReportToolsDrawer from '@/components/tools/ReportToolsDrawer.vue'
 import ReportViewHeader from '@/components/report/ReportViewHeader.vue'
 import ReportViewMain from '@/components/report/ReportViewMain.vue'
 import ReportViewMobileDrawer from '@/components/report/ReportViewMobileDrawer.vue'
 import ReportViewSidebar from '@/components/report/ReportViewSidebar.vue'
 import { reportViewNavItems } from '@/config/reportViewNav'
 import { useReportView, type ReportViewProps } from '@/composables/useReportView'
-import { computed } from 'vue'
+import type { ReportKitTabId } from '@/types/report-kit'
+import { computed, ref } from 'vue'
 
 const props = withDefaults(
   defineProps<ReportViewProps>(),
-  { variant: 'live', savedReportId: null, deleteInProgress: false }
+  {
+    variant: 'live',
+    savedReportId: null,
+    deleteInProgress: false,
+    pipelineRisk: undefined,
+    pipelineStrategy: undefined,
+    workspaceMode: undefined,
+    suppressTopInset: false,
+  },
 )
 
 const emit = defineEmits<{
@@ -24,7 +35,7 @@ const navItems = computed(() => {
   if (props.jobPost?.trim()) {
     return reportViewNavItems
   }
-  return reportViewNavItems.filter((item) => item.id !== 'context')
+  return reportViewNavItems.filter(item => item.id !== 'context')
 })
 
 const {
@@ -34,6 +45,7 @@ const {
   saveToWorkspace,
   activeSection,
   proposalDrawerOpen,
+  toolsDrawerOpen,
   drawerOpen,
   isDesktopNav,
   showMobileNav,
@@ -49,12 +61,23 @@ const {
   proposalIntelligenceResolved,
   canShowProposalCta,
 } = useReportView(props)
+
+const toolsKitTab = ref<ReportKitTabId>('call')
+
+function openCallKit(section?: ReportKitTabId) {
+  toolsKitTab.value = section ?? 'call'
+  toolsDrawerOpen.value = true
+}
 </script>
 
 <template>
   <div
     v-if="report"
     class="report-page"
+    :class="{
+      'report-page--workspace-perform': props.workspaceMode === 'perform',
+      'report-page--no-top-inset': props.suppressTopInset,
+    }"
   >
     <ReportViewHeader
       v-model:save-title="saveTitle"
@@ -72,14 +95,20 @@ const {
       @export-json="exportJson"
       @print-report="printReport"
       @open-proposal="proposalDrawerOpen = true"
+      @open-tools="openCallKit('call')"
       @leave="emit('leave')"
       @reset="emit('reset')"
       @request-delete="emit('requestDelete')"
     />
 
+    <ReportActionStrip
+      v-if="canShowProposalCta && props.workspaceMode !== 'perform'"
+      @open="openCallKit"
+    />
+
     <div class="report-layout">
       <ReportViewSidebar
-        v-if="isDesktopNav"
+        v-if="isDesktopNav && props.workspaceMode !== 'perform'"
         :nav-items="navItems"
         :active-section="activeSection"
         @scroll="scrollToSection"
@@ -90,13 +119,14 @@ const {
         :default-strategy="defaultStrategy"
         :job-post="jobPost"
         :variant="variant"
+        :perform-mode="props.workspaceMode === 'perform'"
       />
     </div>
 
     <ReportViewMobileDrawer
       v-model:drawer-open="drawerOpen"
       v-model:save-title="saveTitle"
-      :show-mobile-nav="showMobileNav"
+      :show-mobile-nav="showMobileNav && props.workspaceMode !== 'perform'"
       :nav-items="navItems"
       :show-save-controls="showSaveControls"
       :saving="saving"
@@ -111,6 +141,7 @@ const {
       @export-json="exportJson"
       @print-report="printReport"
       @open-proposal="proposalDrawerOpen = true"
+      @open-tools="openCallKit('call')"
       @leave="emit('leave')"
       @reset="emit('reset')"
       @request-delete="emit('requestDelete')"
@@ -127,6 +158,21 @@ const {
       :team-expertise="teamExpertise"
       :constraints="constraints"
       @close="proposalDrawerOpen = false"
+    />
+
+    <ReportToolsDrawer
+      v-if="canShowProposalCta"
+      :visible="toolsDrawerOpen"
+      :initial-tab="toolsKitTab"
+      :report="report"
+      :intelligence="proposalIntelligenceResolved"
+      :job-post="proposalJobPost"
+      :client-messages="clientMessages"
+      :team-expertise="teamExpertise"
+      :constraints="constraints"
+      :pipeline-risk="pipelineRisk"
+      :pipeline-strategy="pipelineStrategy"
+      @close="toolsDrawerOpen = false"
     />
   </div>
 </template>
@@ -165,6 +211,10 @@ const {
     max-width: 100%;
     width: 100%;
   }
+}
+
+.report-page--no-top-inset {
+  padding-top: 0;
 }
 
 @media print {

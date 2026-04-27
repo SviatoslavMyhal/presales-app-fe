@@ -1,17 +1,17 @@
 class HomeService {
-  getBooks () {
+  getBooks() {
     return apiClient.get('/api/v1/Books')
   }
 
-  createBook () {
+  createBook() {
     return apiClient.post('/api/v1/Books', { description: '' })
   }
 
-  updateBook () {
+  updateBook() {
     return apiClient.put(
       '/api/v1/Books/{id}',
       { pageCount: 1, description: '123' },
-      { dynamicKeys: { id: 123 } }
+      { dynamicKeys: { id: 123 } },
     )
   }
 }

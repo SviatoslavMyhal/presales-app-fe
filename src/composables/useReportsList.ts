@@ -7,7 +7,7 @@ import { ElMessage } from 'element-plus'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-export function useReportsList () {
+export function useReportsList() {
   const router = useRouter()
 
   const reports = ref<ReportListItem[]>([])
@@ -15,35 +15,42 @@ export function useReportsList () {
   const error = ref<string | null>(null)
   const deletingId = ref<string | null>(null)
 
-  async function load () {
+  async function load() {
     loading.value = true
     error.value = null
     try {
       const res = await reportsList()
       reports.value = res.reports
-    } catch (e) {
+    }
+    catch (e) {
       error.value = formatApiError(e)
       reports.value = []
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
 
   onMounted(load)
 
-  function goDetail (id: string) {
-    router.push({ name: routeNames.reportDetail, params: { id } })
+  function goDetail(id: string) {
+    void router.push({
+      name: routeNames.opportunityDetail,
+      params: { id },
+      query: { mode: 'prepare' },
+    })
   }
 
-  async function onDeleteReport (row: ReportListItem, e: MouseEvent) {
+  async function onDeleteReport(row: ReportListItem, e: MouseEvent) {
     e.preventDefault()
     e.stopPropagation()
     if (deletingId.value) {
       return
     }
     try {
-      await confirmDeleteReport(row.title || 'Untitled report')
-    } catch {
+      await confirmDeleteReport(row.title ?? 'Untitled report')
+    }
+    catch {
       return
     }
     deletingId.value = row.id
@@ -51,20 +58,23 @@ export function useReportsList () {
       await reportsDelete(row.id)
       ElMessage.success('Report deleted')
       await load()
-    } catch (err) {
+    }
+    catch (err) {
       ElMessage.error(formatApiError(err))
-    } finally {
+    }
+    finally {
       deletingId.value = null
     }
   }
 
-  function formatDate (iso: string) {
+  function formatDate(iso: string) {
     try {
       return new Date(iso).toLocaleString(undefined, {
         dateStyle: 'medium',
         timeStyle: 'short',
       })
-    } catch {
+    }
+    catch {
       return iso
     }
   }

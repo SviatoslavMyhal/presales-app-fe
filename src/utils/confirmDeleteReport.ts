@@ -4,7 +4,7 @@ import { ElMessageBox } from 'element-plus'
  * Dark-themed confirmation for removing a saved report. Resolves if user confirms;
  * rejects with `'cancel'` if dismissed (same as ElMessageBox.confirm).
  */
-export function confirmDeleteReport (title: string): Promise<void> {
+export function confirmDeleteReport(title: string): Promise<void> {
   const label = title.trim() || 'Untitled report'
   return ElMessageBox.confirm(
     `“${label}” will be permanently removed from your workspace. This action cannot be undone.`,
@@ -19,8 +19,8 @@ export function confirmDeleteReport (title: string): Promise<void> {
       cancelButtonClass: 'presales-msgbox__btn-cancel',
       distinguishCancelAndClose: true,
       showClose: true,
-      autofocus: false
-    }
+      autofocus: false,
+    },
   ).then(() => {
     /* confirmed */
   })
